@@ -157,23 +157,69 @@ body {
   padding: 0;
 }
 
-.transaction-list li {
-  background: #161b22;
-  margin-bottom: 0.75rem;
-  padding: 0.75rem 1rem;
-  border-left: 4px solid var(--primary);
-  border-radius: 4px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--text);
-  font-size: 0.95rem;
-}
-
 .transaction-list li.expense {
   border-color: var(--danger);
 }
 
 .transaction-list li.income {
   border-color: var(--success);
+}
+
+.transaction-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #161b22;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--primary);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.transaction-list li.income {
+  border-color: var(--success);
+}
+.transaction-list li.expense {
+  border-color: var(--danger);
+}
+
+.tx-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tx-icon {
+  font-size: 1.2rem;
+}
+
+.tx-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.tx-category {
+  font-weight: bold;
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+.tx-account {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.tx-right {
+  text-align: right;
+}
+
+.tx-amount {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.tx-date {
+  font-size: 0.8rem;
+  color: #888;
 }

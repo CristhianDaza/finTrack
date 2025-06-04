@@ -96,11 +96,18 @@ export function renderTransactionList() {
     li.classList.add(tx.type);
     console.log(tx);
     li.innerHTML = `
-      <strong>${tx.category}</strong> ${translateAccount(tx.account)}<br>
-      ${formatCOP(tx.amount)}
-      <span>${tx.date}</span>
+      <div class="tx-left">
+        <div class="tx-icon">${tx.type === "income" ? "💰" : "💸"}</div>
+        <div class="tx-details">
+          <div class="tx-category">${tx.category}</div>
+          <div class="tx-account">${translateAccount(tx.account)}</div>
+        </div>
+      </div>
+      <div class="tx-right">
+        <div class="tx-amount">${formatCOP(tx.amount)}</div>
+        <div class="tx-date">${tx.date}</div>
+      </div>
     `;
-
     container.appendChild(li);
   });
 }
