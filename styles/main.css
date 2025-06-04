@@ -279,6 +279,36 @@ body {
   background-color: var(--danger);
 }
 
+#add-debt-btn {
+  background-color: var(--accent);
+  color: var(--text);
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#add-debt-btn:hover {
+  background-color: var(--primary);
+}
+
+.debt-form button {
+  background-color: var(--accent);
+  color: var(--text);
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.debt-form button:hover {
+  background-color: var(--primary);
+}
+
 /* Estilos para el modal */
 .modal {
   display: none; /* Oculto por defecto */
@@ -347,4 +377,96 @@ body {
 
 #confirm-delete-modal button:hover {
   opacity: 0.8;
+}
+
+#debt-modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+#debt-modal .modal-content {
+  display: grid;
+  gap: 1rem;
+  width: 500px;
+  background: var(--accent);
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 0 auto;
+}
+
+#debt-modal label {
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+}
+
+#debt-modal input[type="text"],
+#debt-modal input[type="number"],
+#debt-modal input[type="date"] {
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  background: #21262d;
+  border: 1px solid #30363d;
+  color: var(--text);
+  border-radius: 4px;
+}
+
+#debt-modal .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: var(--text);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+#debts-container {
+  list-style: none;
+  padding: 0;
+}
+
+.debt-details {
+  background-color: var(--accent);
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.debt-details div {
+  margin-right: 1rem;
+}
+
+.debt-details .debt-name {
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.debt-details .debt-total,
+.debt-details .debt-due-date,
+.debt-details .debt-remaining {
+  color: var(--text);
+}
+
+.debt-details button {
+  background-color: var(--accent);
+  color: var(--text);
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.debt-details button:hover {
+  background-color: var(--primary);
 }

@@ -1,6 +1,7 @@
 import { saveTransaction, getTransactions, deleteTransaction as deleteTransactionStorage, updateTransaction } from './storage.js';
 import { NotificationService } from './components/notification.js';
 import { translateAccount, formatCOP } from './components/utils.js';
+import { saveDebt, getDebts } from './storage.js';
 
 export let editingTransactionId = null;
 let transactionToDelete = null;
@@ -175,4 +176,64 @@ const deleteTransaction = (id) => {
   deleteTransactionStorage(id);
   renderTransactionList();
   NotificationService.success("Transacción eliminada con éxito!");
+};
+
+export const setupDebtForm = () => {
+  const debtForm = document.getElementById('debt-form');
+
+  debtForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const debtName = document.getElementById('debt-name').value;
+    const debtTotal = parseFloat(document.getElementById('debt-total').value);
+    const debtDueDate = document.getElementById('debt-due-date').value;
+
+    if (!debtName || isNaN(debtTotal) || debtTotal <= 0 || !debtDueDate) {
+      NotificationService.error("Por favor completa todos los campos correctamente.");
+      return;
+    }
+
+    const debt = {
+      id: crypto.randomUUID(),
+      name: debtName,
+      total: debtTotal,
+      dueDate: debtDueDate,
+      payments: [],
+      remaining: debtTotal
+    };
+
+    saveDebt(debt);
+    debtForm.reset();
+    renderDebtList();
+
+    const modal = document.getElementById('debt-modal');
+    modal.style.display = 'none';
+  });
+};
+
+export const renderDebtList = () => {
+  const container = document.getElementById("debts-container");
+  const debts = getDebts();
+
+  container.innerHTML = "";
+
+  if (debts.length === 0) {
+    container.innerHTML = "<li>No hay deudas registradas.</li>";
+    return;
+  }
+
+  debts.forEach(debt => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <div class="debt-details">
+        <div class="debt-name">${debt.name}</div>
+        <div class="debt-total">Total: ${formatCOP(debt.total)}</div>
+        <div class="debt-due-date">Vence: ${debt.dueDate}</div>
+        <div class="debt-remaining">Restante: ${formatCOP(debt.remaining)}</div>
+        <button class="edit-debt-btn" data-id="${debt.id}">Editar</button>
+        <button class="delete-debt-btn" data-id="${debt.id}">Eliminar</button>
+      </div>
+    `;
+    container.appendChild(li);
+  });
 };

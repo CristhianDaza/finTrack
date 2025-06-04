@@ -97,7 +97,28 @@
 
       <section id="debts-view" class="view-section">
         <h1>Deudas</h1>
-        <!-- Debts Form and List -->
+        <button id="add-debt-btn">Agregar Deuda</button>
+        <div id="debt-modal" class="modal">
+          <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <form id="debt-form" class="debt-form">
+              <label>
+                Nombre de la Deuda:
+                <input type="text" id="debt-name" required />
+              </label>
+              <label>
+                Monto Total:
+                <input type="number" id="debt-total" required />
+              </label>
+              <label>
+                Fecha de Vencimiento:
+                <input type="date" id="debt-due-date" required />
+              </label>
+              <button type="submit">Guardar Deuda</button>
+            </form>
+          </div>
+        </div>
+        <ul id="debts-container"></ul>
       </section>
 
       <section id="accounts-view" class="view-section">

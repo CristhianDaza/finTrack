@@ -23,3 +23,14 @@ export const updateTransaction = (updatedTransaction) => {
     localStorage.setItem('transactions', JSON.stringify(transactions));
   }
 };
+
+export const saveDebt = (debt) => {
+  const debts = getDebts();
+  debts.push(debt);
+  localStorage.setItem('debts', JSON.stringify(debts));
+};
+
+export const getDebts = () => {
+  const data = localStorage.getItem('debts');
+  return data ? JSON.parse(data) : [];
+};
