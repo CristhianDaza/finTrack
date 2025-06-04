@@ -77,6 +77,8 @@ const renderFilteredTransactions = (transactions) => {
       <div class="tx-right">
         <div class="tx-amount">${formatCOP(tx.amount)}</div>
         <div class="tx-date">${tx.date}</div>
+        <button class="edit-btn" data-id="${tx.id}">Editar</button>
+        <button class="delete-btn" data-id="${tx.id}">Eliminar</button>
       </div>
     `;
     container.appendChild(li);

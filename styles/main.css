@@ -254,6 +254,25 @@ body {
   color: #888;
 }
 
+.edit-btn, .delete-btn {
+  background-color: var(--accent);
+  color: var(--text);
+  border: none;
+  padding: 0.3rem 0.6rem;
+  margin-left: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-btn:hover {
+  background-color: var(--primary);
+}
+
+.delete-btn:hover {
+  background-color: var(--danger);
+}
+
 /* Estilos para el modal */
 .modal {
   display: none; /* Oculto por defecto */
@@ -294,4 +313,32 @@ body {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+#confirm-delete-modal .modal-content {
+  padding: 20px;
+  text-align: center;
+}
+
+#confirm-delete-modal button {
+  background-color: var(--accent);
+  color: var(--text);
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#confirm-delete-modal #confirm-delete-btn {
+  background-color: var(--danger);
+}
+
+#confirm-delete-modal #cancel-delete-btn {
+  background-color: var(--primary);
+}
+
+#confirm-delete-modal button:hover {
+  opacity: 0.8;
 }

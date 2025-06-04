@@ -1,5 +1,5 @@
 import { switchView } from './ui.js';
-import { setupTransactionForm } from './finance.js';
+import { setupTransactionForm, editingTransactionId } from './finance.js';
 import { setupFilters } from './filters.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeBtn = modal.querySelector('.close-btn');
 
   addTransactionBtn.addEventListener('click', () => {
+    const form = document.getElementById('transaction-form');
+    form.reset();
     modal.style.display = 'block';
   });
 
