@@ -1,4 +1,4 @@
-export function switchView(viewId) {
+export const switchView = (viewId) => {
   document.querySelectorAll('.view-section').forEach(section => {
     section.classList.remove('active');
   });

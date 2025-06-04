@@ -2,7 +2,7 @@ export const NotificationService = (() => {
   const containerId = "notification-container";
   const maxNotifications = 3;
 
-  function init() {
+  const init = () => {
     if (!document.getElementById(containerId)) {
       const container = document.createElement("div");
       container.id = containerId;
@@ -10,7 +10,7 @@ export const NotificationService = (() => {
     }
   }
 
-  function getIcon(type) {
+  const getIcon = (type) => {
     switch (type) {
       case "success": return "✅";
       case "error": return "❌";
@@ -19,7 +19,7 @@ export const NotificationService = (() => {
     }
   }
 
-  function show(message, type = "info", timeout = 4000) {
+  const show = (message, type = "info", timeout = 4000) => {
     init();
     const container = document.getElementById(containerId);
 

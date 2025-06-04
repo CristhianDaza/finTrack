@@ -1,19 +1,16 @@
 import { getTransactions } from './storage.js';
 import { translateAccount, formatCOP } from './components/utils.js';
 
-export function setupFilters() {
+export const setupFilters = () => {
   const yearButtonsContainer = document.getElementById('year-buttons');
   const monthButtons = document.querySelectorAll('.month-buttons button');
-  const currentFilterDisplay = document.getElementById('current-filter');
 
   const transactions = getTransactions();
   const years = new Set(transactions.map(t => new Date(t.date).getFullYear()));
   const currentYear = new Date().getFullYear();
 
-  // Añadir el año actual
   years.add(currentYear);
 
-  // Crear botones de año
   years.forEach(year => {
     const button = document.createElement('button');
     button.textContent = year;
@@ -22,7 +19,6 @@ export function setupFilters() {
     yearButtonsContainer.appendChild(button);
   });
 
-  // Activar el mes actual
   const currentMonth = String(new Date().getMonth() + 1).padStart(2, '0');
   monthButtons.forEach(button => {
     if (button.dataset.month === currentMonth) {
@@ -32,7 +28,6 @@ export function setupFilters() {
 
   updateCurrentFilterDisplay(currentYear, currentMonth);
 
-  // Event listeners para filtrar
   yearButtonsContainer.addEventListener('click', (e) => {
     if (e.target.tagName === 'BUTTON') {
       const activeYearButton = document.querySelector('.year-buttons .active');
@@ -54,7 +49,7 @@ export function setupFilters() {
   });
 }
 
-function filterTransactions() {
+const filterTransactions = () => {
   const activeYear = document.querySelector('.year-buttons .active').dataset.year;
   const activeMonth = document.querySelector('.month-buttons .active').dataset.month;
   const transactions = getTransactions();
@@ -65,7 +60,7 @@ function filterTransactions() {
   renderFilteredTransactions(filtered);
 }
 
-function renderFilteredTransactions(transactions) {
+const renderFilteredTransactions = (transactions) => {
   const container = document.getElementById('transactions-container');
   container.innerHTML = '';
   transactions.forEach(tx => {
@@ -88,7 +83,7 @@ function renderFilteredTransactions(transactions) {
   });
 }
 
-function updateCurrentFilterDisplay(year, month) {
+const updateCurrentFilterDisplay = (year, month) => {
   const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
   const currentFilterDisplay = document.getElementById('current-filter');
   currentFilterDisplay.textContent = `Mostrando: ${monthNames[parseInt(month, 10) - 1]} ${year}`;

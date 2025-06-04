@@ -71,7 +71,7 @@ body {
   display: grid;
   gap: 1rem;
   width: 100%;
-  max-width: 500px;
+  min-width: 500px;
   background: var(--accent);
   padding: 1rem;
   border-radius: 8px;
@@ -107,6 +107,13 @@ body {
   background-color: #4090dd;
 }
 
+.transaction-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
 #add-transaction-btn {
   background-color: var(--primary);
   color: var(--text);
@@ -115,7 +122,6 @@ body {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-bottom: 1rem;
 }
 
 #add-transaction-btn:hover {

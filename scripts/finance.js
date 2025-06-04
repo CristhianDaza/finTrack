@@ -2,7 +2,7 @@ import { saveTransaction, getTransactions } from './storage.js';
 import { NotificationService } from './components/notification.js';
 import { translateAccount, formatCOP } from './components/utils.js';
 
-export function setupTransactionForm() {
+export const setupTransactionForm = () => {
   const typeSelect = document.getElementById("type");
   const categorySelect = document.getElementById("category");
   const accountSelect = document.getElementById("account");
@@ -15,7 +15,7 @@ export function setupTransactionForm() {
     expense: ["Gastos", "Comida", "Educacion", "Transporte", "Salud", "Entretenimiento", "Ropa", "Viajes", "Hogar", "Servicios", "Impuestos", "Jardín", "Otros"]
   };
 
-  function updateCategoryOptions() {
+  const updateCategoryOptions = () => {
     const type = typeSelect.value;
     const currentCategories = categories[type] || [];
     categorySelect.innerHTML = "";
@@ -57,7 +57,6 @@ export function setupTransactionForm() {
     NotificationService.success("Transacción guardada con éxito!");
     renderTransactionList();
 
-    // Cerrar el modal después de guardar la transacción
     const modal = document.getElementById('transaction-modal');
     modal.style.display = 'none';
   });
@@ -67,7 +66,7 @@ export function setupTransactionForm() {
   renderTransactionList();
 }
 
-export function renderTransactionList() {
+export const renderTransactionList = () => {
   const container = document.getElementById("transactions-container");
   const transactions = getTransactions();
 
