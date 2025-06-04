@@ -1,10 +1,12 @@
 import { saveTransaction, getTransactions, deleteTransaction as deleteTransactionStorage, updateTransaction } from './storage.js';
 import { NotificationService } from './components/notification.js';
 import { translateAccount, formatCOP } from './components/utils.js';
-import { saveDebt, getDebts } from './storage.js';
+import { saveDebt, getDebts, deleteDebt as deleteDebtStorage, updateDebt } from './storage.js';
 
 export let editingTransactionId = null;
 let transactionToDelete = null;
+let editingDebtId = null;
+let debtToDelete = null;
 
 export const setupTransactionForm = () => {
   const typeSelect = document.getElementById("type");
@@ -194,7 +196,7 @@ export const setupDebtForm = () => {
     }
 
     const debt = {
-      id: crypto.randomUUID(),
+      id: editingDebtId || crypto.randomUUID(),
       name: debtName,
       total: debtTotal,
       dueDate: debtDueDate,
@@ -202,7 +204,15 @@ export const setupDebtForm = () => {
       remaining: debtTotal
     };
 
-    saveDebt(debt);
+    if (editingDebtId) {
+      updateDebt(debt);
+      editingDebtId = null;
+      NotificationService.success("Deuda actualizada con éxito!");
+    } else {
+      saveDebt(debt);
+      NotificationService.success("Deuda guardada con éxito!");
+    }
+
     debtForm.reset();
     renderDebtList();
 
@@ -236,4 +246,68 @@ export const renderDebtList = () => {
     `;
     container.appendChild(li);
   });
+
+  container.querySelectorAll('.edit-debt-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const debtId = e.target.dataset.id;
+      editDebt(debtId);
+    });
+  });
+
+  container.querySelectorAll('.delete-debt-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+      debtToDelete = e.target.dataset.id;
+      const modal = document.getElementById('confirm-delete-debt-modal');
+      modal.style.display = 'block';
+    });
+  });
+
+  const confirmDeleteDebtBtn = document.getElementById('confirm-delete-debt-btn');
+  const cancelDeleteDebtBtn = document.getElementById('cancel-delete-debt-btn');
+  const closeDeleteDebtModalBtn = document.querySelector('#confirm-delete-debt-modal .close-btn');
+
+  confirmDeleteDebtBtn.addEventListener('click', () => {
+    if (debtToDelete) {
+      deleteDebt(debtToDelete);
+      debtToDelete = null;
+      const modal = document.getElementById('confirm-delete-debt-modal');
+      modal.style.display = 'none';
+    }
+  });
+
+  cancelDeleteDebtBtn.addEventListener('click', () => {
+    debtToDelete = null;
+    const modal = document.getElementById('confirm-delete-debt-modal');
+    modal.style.display = 'none';
+  });
+
+  closeDeleteDebtModalBtn.addEventListener('click', () => {
+    debtToDelete = null;
+    const modal = document.getElementById('confirm-delete-debt-modal');
+    modal.style.display = 'none';
+  });
+};
+
+const editDebt = (id) => {
+  const debts = getDebts();
+  const debt = debts.find(d => d.id === id);
+  if (debt) {
+    const debtNameInput = document.getElementById('debt-name');
+    const debtTotalInput = document.getElementById('debt-total');
+    const debtDueDateInput = document.getElementById('debt-due-date');
+
+    debtNameInput.value = debt.name;
+    debtTotalInput.value = debt.total;
+    debtDueDateInput.value = debt.dueDate;
+
+    editingDebtId = id;
+    const modal = document.getElementById('debt-modal');
+    modal.style.display = 'block';
+  }
+};
+
+const deleteDebt = (id) => {
+  deleteDebtStorage(id);
+  renderDebtList();
+  NotificationService.success("Deuda eliminada con éxito!");
 };

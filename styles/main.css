@@ -379,6 +379,34 @@ body {
   opacity: 0.8;
 }
 
+#confirm-delete-debt-modal .modal-content {
+  padding: 20px;
+  text-align: center;
+}
+
+#confirm-delete-debt-modal button {
+  background-color: var(--accent);
+  color: var(--text);
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#confirm-delete-debt-modal #confirm-delete-debt-btn {
+  background-color: var(--danger);
+}
+
+#confirm-delete-debt-modal #cancel-delete-debt-btn {
+  background-color: var(--primary);
+}
+
+#confirm-delete-debt-modal button:hover {
+  opacity: 0.8;
+}
+
 #debt-modal {
   display: none;
   position: fixed;

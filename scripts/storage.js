@@ -34,3 +34,18 @@ export const getDebts = () => {
   const data = localStorage.getItem('debts');
   return data ? JSON.parse(data) : [];
 };
+
+export const updateDebt = (updatedDebt) => {
+  let debts = getDebts();
+  const index = debts.findIndex(d => d.id === updatedDebt.id);
+  if (index !== -1) {
+    debts[index] = updatedDebt;
+    localStorage.setItem('debts', JSON.stringify(debts));
+  }
+};
+
+export const deleteDebt = (id) => {
+  let debts = getDebts();
+  debts = debts.filter(d => d.id !== id);
+  localStorage.setItem('debts', JSON.stringify(debts));
+};
