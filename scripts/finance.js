@@ -1,4 +1,5 @@
 import { saveTransaction } from './storage.js';
+import { NotificationService } from './components/notification.js';
 
 export function setupTransactionForm() {
   const typeSelect = document.getElementById("type");
@@ -36,7 +37,7 @@ export function setupTransactionForm() {
     const date = dateInput.value || new Date().toISOString().split('T')[0];
   
     if (!type || !category || !account || isNaN(amount) || amount <= 0) {
-      alert("Por favor completa todos los campos correctamente.");
+      NotificationService.error("Por favor completa todos los campos correctamente.");
       return;
     }
   
@@ -52,7 +53,7 @@ export function setupTransactionForm() {
     saveTransaction(transaction);
     form.reset();
     updateCategoryOptions();
-    alert("Transacción guardada!");
+    NotificationService.success("Transacción guardada!");
   });
 
   typeSelect.addEventListener("change", updateCategoryOptions);
