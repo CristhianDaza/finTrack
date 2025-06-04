@@ -10,8 +10,8 @@ export function setupTransactionForm() {
   const form = document.getElementById("transaction-form");
 
   const categories = {
-    income: ["Salario", "Freelance", "Prestamo", "Otros"],
-    expense: ["Gastos", "Comida", "Educacion", "Transporte", "Otros"]
+    income: ["Salario", "Freelance", "Prestamo", "Intereses", "Dividendos", "Regalos", "Venta", "Otros"],
+    expense: ["Gastos", "Comida", "Educacion", "Transporte", "Salud", "Entretenimiento", "Ropa", "Viajes", "Hogar", "Servicios", "Impuestos", "Jardín", "Otros"]
   };
 
   function updateCategoryOptions() {
