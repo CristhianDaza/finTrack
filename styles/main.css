@@ -104,3 +104,76 @@ body {
 .transaction-form button:hover {
   background-color: #4090dd;
 }
+
+.transaction-form {
+  display: grid;
+  gap: 1rem;
+  max-width: 400px;
+  background: var(--accent);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.transaction-form label {
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+}
+
+.transaction-form input,
+.transaction-form select {
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  background: #21262d;
+  border: 1px solid #30363d;
+  color: var(--text);
+  border-radius: 4px;
+}
+
+.transaction-form button {
+  background-color: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.transaction-form button:hover {
+  background-color: #4090dd;
+}
+
+.transaction-list {
+  margin-top: 2rem;
+}
+
+.transaction-list h2 {
+  margin-bottom: 1rem;
+}
+
+.transaction-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.transaction-list li {
+  background: #161b22;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--primary);
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.transaction-list li.expense {
+  border-color: var(--danger);
+}
+
+.transaction-list li.income {
+  border-color: var(--success);
+}

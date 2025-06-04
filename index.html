@@ -21,6 +21,12 @@
 
     <main class="view">
       <section id="dashboard-view" class="view-section active">
+        <h1>Dashboard</h1>
+      </section>
+
+      <section id="transactions-view" class="view-section">
+        <h1>Transacciones</h1>
+      
         <form id="transaction-form" class="transaction-form">
           <label>
             Tipo:
@@ -56,11 +62,11 @@
         
           <button type="submit">Guardar Transaccion</button>
         </form>
-      </section>
-
-      <section id="transactions-view" class="view-section">
-        <h1>Transacciones</h1>
-        <!-- Transaction Form -->
+      
+        <section id="transaction-list" class="transaction-list">
+          <h2>Historial de transacciones</h2>
+          <ul id="transactions-container"></ul>
+        </section>
       </section>
 
       <section id="debts-view" class="view-section">

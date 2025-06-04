@@ -1,4 +1,4 @@
-import { saveTransaction } from './storage.js';
+import { saveTransaction, getTransactions } from './storage.js';
 import { NotificationService } from './components/notification.js';
 
 export function setupTransactionForm() {
@@ -31,10 +31,10 @@ export function setupTransactionForm() {
     e.preventDefault();
   
     const type = typeSelect.value;
-    const category = categorySelect.value;
+    const category = categorySelect.options[categorySelect.selectedIndex].text;
     const account = accountSelect.value;
     const amount = parseFloat(amountInput.value);
-    const date = dateInput.value || new Date().toISOString().split('T')[0];
+    const date = dateInput.value || new Date().toISOString().split("T")[0];
   
     if (!type || !category || !account || isNaN(amount) || amount <= 0) {
       NotificationService.error("Por favor completa todos los campos correctamente.");
@@ -53,9 +53,54 @@ export function setupTransactionForm() {
     saveTransaction(transaction);
     form.reset();
     updateCategoryOptions();
-    NotificationService.success("Transacción guardada!");
+    NotificationService.success("Transacción guardada con éxito!");
+    renderTransactionList();
   });
 
   typeSelect.addEventListener("change", updateCategoryOptions);
   updateCategoryOptions();
+  renderTransactionList();
+}
+
+function translateAccount(account) {
+  const map = {
+    savings: "Ahorro",
+    cash: "Efectivo",
+    bank: "Banco"
+  };
+  return map[account] || account;
+}
+
+function formatCOP(value) {
+  return new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: "COP",
+    maximumFractionDigits: 0
+  }).format(value);
+}
+
+
+export function renderTransactionList() {
+  const container = document.getElementById("transactions-container");
+  const transactions = getTransactions();
+
+  container.innerHTML = "";
+
+  if (transactions.length === 0) {
+    container.innerHTML = "<li>No hay transacciones registradas.</li>";
+    return;
+  }
+
+  transactions.forEach(tx => {
+    const li = document.createElement("li");
+    li.classList.add(tx.type);
+    console.log(tx);
+    li.innerHTML = `
+      <strong>${tx.category}</strong> ${translateAccount(tx.account)}<br>
+      ${formatCOP(tx.amount)}
+      <span>${tx.date}</span>
+    `;
+
+    container.appendChild(li);
+  });
 }
