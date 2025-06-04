@@ -12,13 +12,26 @@ export const setupTransactionForm = () => {
   const typeSelect = document.getElementById("type");
   const categorySelect = document.getElementById("category");
   const accountSelect = document.getElementById("account");
+  const debtSelect = document.getElementById("debt-select");
   const amountInput = document.getElementById("amount");
   const dateInput = document.getElementById("date");
   const form = document.getElementById("transaction-form");
 
   const categories = {
     income: ["Salario", "Freelance", "Prestamo", "Intereses", "Dividendos", "Regalos", "Venta", "Otros"],
-    expense: ["Gastos", "Comida", "Educacion", "Transporte", "Salud", "Entretenimiento", "Ropa", "Viajes", "Hogar", "Servicios", "Impuestos", "Jardín", "Otros"]
+    expense: ["Gastos", "Comida", "Educacion", "Transporte", "Salud", "Entretenimiento", "Ropa", "Viajes", "Hogar", "Servicios", "Impuestos", "Jardín", "Otros"],
+    debt: [] // No categories for debt
+  };
+
+  const updateDebtOptions = () => {
+    const debts = getDebts();
+    debtSelect.innerHTML = "";
+    debts.forEach(debt => {
+      const opt = document.createElement("option");
+      opt.value = debt.name;
+      opt.textContent = debt.name;
+      debtSelect.appendChild(opt);
+    });
   };
 
   const updateCategoryOptions = () => {
@@ -32,43 +45,84 @@ export const setupTransactionForm = () => {
       opt.textContent = cat;
       categorySelect.appendChild(opt);
     });
+
+    // Show or hide category, account, and debt fields based on type
+    if (type === "debt") {
+      categorySelect.parentElement.style.display = "none";
+      accountSelect.parentElement.style.display = "none";
+      debtSelect.parentElement.style.display = "flex";
+      updateDebtOptions();
+    } else {
+      categorySelect.parentElement.style.display = "flex";
+      accountSelect.parentElement.style.display = "flex";
+      debtSelect.parentElement.style.display = "none";
+    }
   }
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
   
     const type = typeSelect.value;
-    const category = categorySelect.options[categorySelect.selectedIndex].text;
+    const category = type === "debt" ? debtSelect.value : categorySelect.options[categorySelect.selectedIndex]?.text || "";
     const account = accountSelect.value;
     const amount = parseFloat(amountInput.value);
     const date = dateInput.value || new Date().toISOString().split("T")[0];
   
-    if (!type || !category || !account || isNaN(amount) || amount <= 0) {
+    if (!type || isNaN(amount) || amount <= 0) {
       NotificationService.error("Por favor completa todos los campos correctamente.");
       return;
     }
-  
-    const transaction = {
-      id: editingTransactionId || crypto.randomUUID(),
-      type,
-      category,
-      account,
-      amount,
-      date
-    };
 
-    if (editingTransactionId) {
-      updateTransaction(transaction);
-      editingTransactionId = null;
-      NotificationService.success("Transacción actualizada con éxito!");
+    if (type === "debt") {
+      // Handle debt payment
+      const debts = getDebts();
+      const debt = debts.find(d => d.name.toLowerCase() === category.toLowerCase());
+      if (debt) {
+        debt.payments.push({ amount, date });
+        debt.remaining -= amount;
+        updateDebt(debt);
+        renderDebtList();
+        NotificationService.success("Pago de deuda registrado con éxito!");
+
+        // Add payment as a transaction
+        const transaction = {
+          id: crypto.randomUUID(),
+          type: "debt-payment",
+          category: debt.name,
+          account: "",
+          amount,
+          date
+        };
+        saveTransaction(transaction);
+        renderTransactionList();
+      } else {
+        NotificationService.error("Deuda no encontrada.");
+      }
     } else {
-      saveTransaction(transaction);
-      NotificationService.success("Transacción guardada con éxito!");
+      // Handle regular transaction
+      const transaction = {
+        id: editingTransactionId || crypto.randomUUID(),
+        type,
+        category,
+        account,
+        amount,
+        date
+      };
+
+      if (editingTransactionId) {
+        updateTransaction(transaction);
+        editingTransactionId = null;
+        NotificationService.success("Transacción actualizada con éxito!");
+      } else {
+        saveTransaction(transaction);
+        NotificationService.success("Transacción guardada con éxito!");
+      }
+
+      renderTransactionList();
     }
 
     form.reset();
     updateCategoryOptions();
-    renderTransactionList();
 
     const modal = document.getElementById('transaction-modal');
     modal.style.display = 'none';
@@ -95,7 +149,7 @@ export const renderTransactionList = () => {
     li.classList.add(tx.type);
     li.innerHTML = `
       <div class="tx-left">
-        <div class="tx-icon">${tx.type === "income" ? "💰" : "💸"}</div>
+        <div class="tx-icon">${tx.type === "income" ? "💰" : tx.type === "debt-payment" ? "📝" : "💸"}</div>
         <div class="tx-details">
           <div class="tx-category">${tx.category}</div>
           <div class="tx-account">${translateAccount(tx.account)}</div>
@@ -158,12 +212,17 @@ const editTransaction = (id) => {
   if (transaction) {
     const typeSelect = document.getElementById("type");
     const categorySelect = document.getElementById("category");
+    const debtSelect = document.getElementById("debt-select");
     const accountSelect = document.getElementById("account");
     const amountInput = document.getElementById("amount");
     const dateInput = document.getElementById("date");
     
     typeSelect.value = transaction.type;
-    categorySelect.value = transaction.category.toLowerCase();
+    if (transaction.type === "debt") {
+      debtSelect.value = transaction.category;
+    } else {
+      categorySelect.value = transaction.category.toLowerCase();
+    }
     accountSelect.value = transaction.account;
     amountInput.value = transaction.amount;
     dateInput.value = transaction.date;
@@ -234,12 +293,19 @@ export const renderDebtList = () => {
 
   debts.forEach(debt => {
     const li = document.createElement("li");
+    const totalPaid = debt.payments.reduce((sum, payment) => sum + payment.amount, 0);
+    const remaining = debt.remaining - totalPaid;
+    const paymentsList = debt.payments.map(payment => `<li>${formatCOP(payment.amount)} - ${payment.date}</li>`).join('');
     li.innerHTML = `
       <div class="debt-details">
         <div class="debt-name">${debt.name}</div>
         <div class="debt-total">Total: ${formatCOP(debt.total)}</div>
         <div class="debt-due-date">Vence: ${debt.dueDate}</div>
-        <div class="debt-remaining">Restante: ${formatCOP(debt.remaining)}</div>
+        <div class="debt-remaining">Restante: ${formatCOP(remaining)}</div>
+        <div class="debt-payments">
+          <h4>Pagos Realizados:</h4>
+          <ul>${paymentsList}</ul>
+        </div>
         <button class="edit-debt-btn" data-id="${debt.id}">Editar</button>
         <button class="delete-debt-btn" data-id="${debt.id}">Eliminar</button>
       </div>
