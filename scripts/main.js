@@ -1,5 +1,6 @@
 import { switchView } from './ui.js';
 import { setupTransactionForm } from './finance.js';
+import { setupFilters } from './filters.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-view]').forEach(button => {
@@ -10,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   setupTransactionForm();
+  setupFilters();
 
   const modal = document.getElementById('transaction-modal');
   const addTransactionBtn = document.getElementById('add-transaction-btn');

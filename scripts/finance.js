@@ -1,5 +1,6 @@
 import { saveTransaction, getTransactions } from './storage.js';
 import { NotificationService } from './components/notification.js';
+import { translateAccount, formatCOP } from './components/utils.js';
 
 export function setupTransactionForm() {
   const typeSelect = document.getElementById("type");
@@ -65,24 +66,6 @@ export function setupTransactionForm() {
   updateCategoryOptions();
   renderTransactionList();
 }
-
-function translateAccount(account) {
-  const map = {
-    savings: "Ahorro",
-    cash: "Efectivo",
-    bank: "Banco"
-  };
-  return map[account] || account;
-}
-
-function formatCOP(value) {
-  return new Intl.NumberFormat("es-CO", {
-    style: "currency",
-    currency: "COP",
-    maximumFractionDigits: 0
-  }).format(value);
-}
-
 
 export function renderTransactionList() {
   const container = document.getElementById("transactions-container");

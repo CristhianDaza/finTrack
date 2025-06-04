@@ -122,8 +122,45 @@ body {
   background-color: var(--accent);
 }
 
+.filter-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.year-buttons button,
+.month-buttons button {
+  background-color: var(--accent);
+  color: var(--text);
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0 0.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.year-buttons button.active,
+.month-buttons button.active {
+  background-color: var(--primary);
+}
+
+.year-buttons button:hover,
+.month-buttons button:hover {
+  background-color: var(--primary);
+}
+
+.current-filter {
+  font-size: 1.2rem;
+  color: var(--text);
+}
+
 .transaction-list {
   margin-top: 20px;
+  background: var(--accent);
+  padding: 1rem;
+  border-radius: 8px;
 }
 
 .transaction-list h2 {
@@ -131,8 +168,17 @@ body {
 }
 
 .transaction-list ul {
-  list-style: none;
+  list-style-type: none;
   padding: 0;
+}
+
+.transaction-list li {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--bg-color);
+}
+
+.transaction-list li:last-child {
+  border-bottom: none;
 }
 
 .transaction-list li.expense {
