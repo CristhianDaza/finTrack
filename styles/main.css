@@ -53,6 +53,12 @@ body {
   background-color: #21262d;
 }
 
+.sidebar nav button.active {
+  background-color: var(--primary);
+  color: var(--text);
+  font-weight: bold;
+}
+
 .view {
   flex: 1;
   padding: 2rem;

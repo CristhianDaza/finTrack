@@ -7,8 +7,20 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', () => {
       const target = button.getAttribute('data-view');
       switchView(target);
+
+      // Remove active class from all buttons
+      document.querySelectorAll('[data-view]').forEach(btn => btn.classList.remove('active'));
+
+      // Add active class to the clicked button
+      button.classList.add('active');
     });
   });
+
+  // Highlight the default active button (Dashboard)
+  const defaultActiveButton = document.querySelector('[data-view="dashboard"]');
+  if (defaultActiveButton) {
+    defaultActiveButton.classList.add('active');
+  }
 
   setupTransactionForm();
   setupFilters();
