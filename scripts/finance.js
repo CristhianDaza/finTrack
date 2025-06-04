@@ -49,12 +49,16 @@ export function setupTransactionForm() {
       amount,
       date
     };
-  
+
     saveTransaction(transaction);
     form.reset();
     updateCategoryOptions();
     NotificationService.success("Transacción guardada con éxito!");
     renderTransactionList();
+
+    // Cerrar el modal después de guardar la transacción
+    const modal = document.getElementById('transaction-modal');
+    modal.style.display = 'none';
   });
 
   typeSelect.addEventListener("change", updateCategoryOptions);

@@ -26,47 +26,46 @@
 
       <section id="transactions-view" class="view-section">
         <h1>Transacciones</h1>
-      
-        <form id="transaction-form" class="transaction-form">
-          <label>
-            Tipo:
-            <select id="type">
-              <option value="income">Ingreso</option>
-              <option value="expense">Gasto</option>
-            </select>
-          </label>
-        
-          <label>
-            Categoria:
-            <select id="category"></select>
-          </label>
-        
-          <label>
-            Cuenta:
-            <select id="account">
-              <option value="savings">Ahorro</option>
-              <option value="cash">Efectivo</option>
-              <option value="bank">Banco</option>
-            </select>
-          </label>
-        
-          <label>
-            Monto:
-            <input type="number" id="amount" min="0" step="0.01" required />
-          </label>
-        
-          <label>
-            Fecha:
-            <input type="date" id="date" />
-          </label>
-        
-          <button type="submit">Guardar Transaccion</button>
-        </form>
-      
-        <section id="transaction-list" class="transaction-list">
+        <button id="add-transaction-btn">Agregar Transacción</button>
+        <div id="transaction-modal" class="modal">
+          <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <form id="transaction-form" class="transaction-form">
+              <label>
+                Tipo:
+                <select id="type">
+                  <option value="income">Ingreso</option>
+                  <option value="expense">Gasto</option>
+                </select>
+              </label>
+              <label>
+                Categoria:
+                <select id="category"></select>
+              </label>
+              <label>
+                Cuenta:
+                <select id="account">
+                  <option value="savings">Ahorro</option>
+                  <option value="cash">Efectivo</option>
+                  <option value="bank">Banco</option>
+                </select>
+              </label>
+              <label>
+                Monto:
+                <input type="number" id="amount" required min="0.01" step="0.01" />
+              </label>
+              <label>
+                Fecha:
+                <input type="date" id="date" />
+              </label>
+              <button type="submit">Guardar</button>
+            </form>
+          </div>
+        </div>
+        <div id="transaction-list" class="transaction-list">
           <h2>Historial de transacciones</h2>
           <ul id="transactions-container"></ul>
-        </section>
+        </div>
       </section>
 
       <section id="debts-view" class="view-section">
