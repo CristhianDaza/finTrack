@@ -1,5 +1,5 @@
 import { switchView } from './ui.js';
-import { setupTransactionForm, editingTransactionId, setupDebtForm, renderDebtList } from './finance.js';
+import { setupTransactionForm, editingTransactionId, setupDebtForm, renderDebtList, filterTransactions } from './finance.js';
 import { setupFilters } from './filters.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,6 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
   setupDebtForm();
   setupFilters();
   renderDebtList();
+
+  const currentYear = new Date().getFullYear();
+  const currentMonth = (new Date().getMonth() + 1).toString().padStart(2, '0');
+  document.querySelector(`[data-year="${currentYear}"]`).classList.add('active');
+  document.querySelector(`[data-month="${currentMonth}"]`).classList.add('active');
+  filterTransactions();
 
   const modal = document.getElementById('transaction-modal');
   const addTransactionBtn = document.getElementById('add-transaction-btn');

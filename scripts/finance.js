@@ -20,7 +20,7 @@ export const setupTransactionForm = () => {
   const categories = {
     income: ["Salario", "Freelance", "Prestamo", "Intereses", "Dividendos", "Regalos", "Venta", "Otros"],
     expense: ["Gastos", "Comida", "Educacion", "Transporte", "Salud", "Entretenimiento", "Ropa", "Viajes", "Hogar", "Servicios", "Impuestos", "Jardín", "Otros"],
-    debt: [] // No categories for debt
+    debt: []
   };
 
   const updateDebtOptions = () => {
@@ -46,7 +46,6 @@ export const setupTransactionForm = () => {
       categorySelect.appendChild(opt);
     });
 
-    // Show or hide category, account, and debt fields based on type
     if (type === "debt") {
       categorySelect.parentElement.style.display = "none";
       accountSelect.parentElement.style.display = "none";
@@ -74,7 +73,6 @@ export const setupTransactionForm = () => {
     }
 
     if (type === "debt") {
-      // Handle debt payment
       const debts = getDebts();
       const debt = debts.find(d => d.name.toLowerCase() === category.toLowerCase());
       if (debt) {
@@ -84,7 +82,6 @@ export const setupTransactionForm = () => {
         renderDebtList();
         NotificationService.success("Pago de deuda registrado con éxito!");
 
-        // Add payment as a transaction
         const transaction = {
           id: crypto.randomUUID(),
           type: "debt-payment",
@@ -99,7 +96,6 @@ export const setupTransactionForm = () => {
         NotificationService.error("Deuda no encontrada.");
       }
     } else {
-      // Handle regular transaction
       const transaction = {
         id: editingTransactionId || crypto.randomUUID(),
         type,
@@ -133,9 +129,8 @@ export const setupTransactionForm = () => {
   renderTransactionList();
 }
 
-export const renderTransactionList = () => {
+export const renderTransactionList = (transactions = getTransactions()) => {
   const container = document.getElementById("transactions-container");
-  const transactions = getTransactions();
 
   container.innerHTML = "";
 
@@ -204,6 +199,16 @@ export const renderTransactionList = () => {
     const modal = document.getElementById('confirm-delete-modal');
     modal.style.display = 'none';
   });
+};
+
+export const filterTransactions = () => {
+  const activeYear = document.querySelector('[data-year].active').getAttribute('data-year');
+  const activeMonth = document.querySelector('[data-month].active').getAttribute('data-month');
+  const filteredTransactions = getTransactions().filter(tx => {
+    const [year, month] = tx.date.split('-');
+    return year === activeYear && month === activeMonth;
+  });
+  renderTransactionList(filteredTransactions);
 };
 
 const editTransaction = (id) => {
