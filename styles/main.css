@@ -66,3 +66,41 @@ body {
 .view-section.active {
   display: block;
 }
+
+.transaction-form {
+  display: grid;
+  gap: 1rem;
+  max-width: 400px;
+  background: var(--accent);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.transaction-form label {
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+}
+
+.transaction-form input,
+.transaction-form select {
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  background: #21262d;
+  border: 1px solid #30363d;
+  color: var(--text);
+  border-radius: 4px;
+}
+
+.transaction-form button {
+  background-color: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.transaction-form button:hover {
+  background-color: #4090dd;
+}

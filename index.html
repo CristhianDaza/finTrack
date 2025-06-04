@@ -12,34 +12,67 @@
       <h2>FinTrack</h2>
       <nav>
         <button data-view="dashboard">Dashboard</button>
-        <button data-view="transactions">Transactions</button>
-        <button data-view="debts">Debts</button>
-        <button data-view="accounts">Accounts</button>
+        <button data-view="transactions">Transacciones</button>
+        <button data-view="debts">Deudas</button>
+        <button data-view="accounts">Cuentas</button>
       </nav>
     </aside>
 
     <main class="view">
       <section id="dashboard-view" class="view-section active">
-        <h1>Financial Summary</h1>
-        <div id="summary"></div>
+        <form id="transaction-form" class="transaction-form">
+          <label>
+            Tipo:
+            <select id="type">
+              <option value="income">Ingreso</option>
+              <option value="expense">Gasto</option>
+            </select>
+          </label>
+        
+          <label>
+            Categoria:
+            <select id="category"></select>
+          </label>
+        
+          <label>
+            Cuenta:
+            <select id="account">
+              <option value="savings">Ahorro</option>
+              <option value="cash">Efectivo</option>
+              <option value="bank">Banco</option>
+            </select>
+          </label>
+        
+          <label>
+            Monto:
+            <input type="number" id="amount" min="0" step="0.01" required />
+          </label>
+        
+          <label>
+            Fecha:
+            <input type="date" id="date" />
+          </label>
+        
+          <button type="submit">Guardar Transaccion</button>
+        </form>
       </section>
 
       <section id="transactions-view" class="view-section">
-        <h1>Transactions</h1>
+        <h1>Transacciones</h1>
         <!-- Transaction Form -->
       </section>
 
       <section id="debts-view" class="view-section">
-        <h1>Debts</h1>
+        <h1>Deudas</h1>
         <!-- Debts Form and List -->
       </section>
 
       <section id="accounts-view" class="view-section">
-        <h1>Accounts</h1>
+        <h1>Cuentas</h1>
         <!-- Accounts Info -->
       </section>
     </main>
   </div>
-  <script src="scripts/main.js"></script>
+  <script type="module" src="scripts/main.js"></script>
 </body>
 </html>
