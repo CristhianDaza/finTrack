@@ -136,6 +136,7 @@ export const setupTransactionForm = () => {
 
     const modal = document.getElementById('transaction-modal');
     modal.style.display = 'none';
+    updateDashboard();
   });
 
   typeSelect.addEventListener("change", updateCategoryOptions);
@@ -203,6 +204,7 @@ export const renderTransactionList = (transactions = getTransactions()) => {
       transactionToDelete = null;
       const modal = document.getElementById('confirm-delete-modal');
       modal.style.display = 'none';
+      updateDashboard();
     }
   });
 
@@ -260,6 +262,7 @@ const deleteTransaction = (id) => {
   deleteTransactionStorage(id);
   renderTransactionList();
   NotificationService.success("Transacción eliminada con éxito!");
+  updateDashboard();
 };
 
 export const setupDebtForm = () => {
@@ -297,6 +300,7 @@ export const setupDebtForm = () => {
 
     debtForm.reset();
     renderDebtList();
+    updateDashboard();
 
     const modal = document.getElementById('debt-modal');
     modal.style.display = 'none';
@@ -361,6 +365,7 @@ export const renderDebtList = () => {
       debtToDelete = null;
       const modal = document.getElementById('confirm-delete-debt-modal');
       modal.style.display = 'none';
+      updateDashboard();
     }
   });
 
@@ -399,6 +404,7 @@ const deleteDebt = (id) => {
   deleteDebtStorage(id);
   renderDebtList();
   NotificationService.success("Deuda eliminada con éxito!");
+  updateDashboard();
 };
 
 const generateUniqueId = () => {
@@ -493,6 +499,7 @@ const setupAccountForm = () => {
       saveAccounts(accounts);
       renderAccounts();
       updateAccountSelect();
+      updateDashboard();
       isEditing = false;
       currentAccountId = null;
     }
@@ -509,6 +516,7 @@ const confirmDeleteAccount = (accountId) => {
     deleteAccount(accountId);
     modal.style.display = 'none';
     NotificationService.success('Cuenta eliminada con éxito.');
+    updateDashboard();
   };
   const cancelBtn = document.getElementById('cancel-delete-account-btn');
   cancelBtn.onclick = () => {
@@ -557,6 +565,71 @@ setupAccountForm();
 renderAccounts();
 updateAccountSelect();
 
+let incomeExpenseChart;
+
+const drawIncomeExpenseChart = (month) => {
+  const ctx = document.getElementById('income-expense-chart').getContext('2d');
+  const transactions = getTransactions().filter(tx => tx.date.split('-')[1] === month);
+
+  const totalIncome = transactions
+    .filter(tx => tx.type === 'income')
+    .reduce((sum, tx) => sum + tx.amount, 0);
+  const totalExpenses = transactions
+    .filter(tx => tx.type === 'expense')
+    .reduce((sum, tx) => sum + tx.amount, 0);
+
+  const data = {
+    labels: ['Ingresos', 'Gastos'],
+    datasets: [{
+      label: 'Finanzas Mensuales',
+      data: [totalIncome, totalExpenses],
+      backgroundColor: ['#4caf50', '#f44336'],
+      borderColor: ['#388e3c', '#d32f2f'],
+      borderWidth: 1,
+      borderRadius: 5,
+    }]
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Comparación de Ingresos y Gastos'
+      }
+    },
+    animation: {
+      duration: 1000,
+      easing: 'easeOutBounce',
+    }
+  };
+
+  if (incomeExpenseChart) {
+    incomeExpenseChart.destroy();
+  }
+
+  incomeExpenseChart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: options
+  });
+};
+
+const monthSelect = document.getElementById('month-select');
+
+// Set the current month as the default selected option
+const currentMonth = new Date().getMonth() + 1;
+monthSelect.value = currentMonth.toString().padStart(2, '0');
+
+monthSelect.addEventListener('change', (e) => {
+  drawIncomeExpenseChart(e.target.value);
+});
+
+drawIncomeExpenseChart(monthSelect.value);
+
 const calculateFinancialSummary = () => {
   const accounts = getAccounts();
   const transactions = getTransactions();
@@ -574,4 +647,11 @@ const calculateFinancialSummary = () => {
   document.getElementById('total-expenses').textContent = formatCOP(totalExpenses);
 };
 
+const updateDashboard = () => {
+  calculateFinancialSummary();
+  drawIncomeExpenseChart(monthSelect.value);
+};
+
+setupTransactionForm();
 calculateFinancialSummary();
+drawIncomeExpenseChart(monthSelect.value);
