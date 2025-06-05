@@ -107,4 +107,21 @@
   .transaction-form select {
     padding: 0.4rem;
   }
+
+  .debt-details {
+    flex-direction: column; /* Cambiar a columna para pantallas pequeñas */
+    align-items: flex-start; /* Alinear al inicio para mejor legibilidad */
+  }
+
+  .debt-details div {
+    width: 100%; /* Asegurar que los divs ocupen el ancho completo */
+    margin-bottom: 0.5rem; /* Añadir margen inferior para separar elementos */
+  }
+
+  .debt-details .debt-name,
+  .debt-details .debt-total,
+  .debt-details .debt-due-date,
+  .debt-details .debt-remaining {
+    font-size: 0.9rem; /* Reducir el tamaño de fuente para mejor ajuste */
+  }
 }
