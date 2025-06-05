@@ -225,17 +225,23 @@ const editTransaction = (id) => {
     const typeSelect = document.getElementById("type");
     const categorySelect = document.getElementById("category");
     const debtSelect = document.getElementById("debt-select");
+    const debtLabel = document.getElementById("debt-select-label");
     const accountSelect = document.getElementById("account");
     const amountInput = document.getElementById("amount");
     const dateInput = document.getElementById("date");
     const descriptionInput = document.getElementById("description");
 
     typeSelect.value = transaction.type;
+
     if (transaction.type === "debt") {
+      debtLabel.style.display = "block";
       debtSelect.value = transaction.category;
+      categorySelect.innerHTML = ""; // Limpia categorías si no aplica
     } else {
+      debtLabel.style.display = "none";
       categorySelect.value = transaction.category.toLowerCase();
     }
+
     accountSelect.value = transaction.account;
     amountInput.value = transaction.amount;
     dateInput.value = transaction.date;
@@ -245,6 +251,7 @@ const editTransaction = (id) => {
     document.getElementById('transaction-modal').style.display = 'block';
   }
 };
+
 
 const deleteTransaction = (id) => {
   const transactions = getTransactions();
