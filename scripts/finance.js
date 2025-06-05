@@ -17,6 +17,7 @@ export const setupTransactionForm = () => {
   const debtSelect = document.getElementById("debt-select");
   const amountInput = document.getElementById("amount");
   const dateInput = document.getElementById("date");
+  const descriptionInput = document.getElementById("description");
   const form = document.getElementById("transaction-form");
 
   const categories = {
@@ -85,6 +86,7 @@ export const setupTransactionForm = () => {
     const rawAmount = amountInput.value;
     const amount = parseFloat(rawAmount);
     const date = dateInput.value || new Date().toISOString().split("T")[0];
+    const description = descriptionInput.value || "";
 
     if (!type || isNaN(amount) || amount <= 0 || (!account && type !== 'debt')) {
       NotificationService.error("Por favor completa todos los campos correctamente.");
@@ -111,7 +113,8 @@ export const setupTransactionForm = () => {
           category: debt.name,
           account: "",
           amount,
-          date
+          date,
+          description
         };
         saveTransaction(transaction);
         renderTransactionList();
@@ -125,7 +128,8 @@ export const setupTransactionForm = () => {
         category,
         account,
         amount,
-        date
+        date,
+        description
       };
 
       if (editingTransactionId) {
@@ -170,6 +174,7 @@ const getTransactionListItems = (transactions) => {
         <div class="tx-details">
           <div class="tx-category">${tx.category}</div>
           <div class="tx-account">${translateAccount(tx.account)}</div>
+          <div class="tx-description">${tx.description}</div>
         </div>
       </div>
       <div class="tx-right">
@@ -257,6 +262,7 @@ const editTransaction = (id) => {
     const accountSelect = document.getElementById("account");
     const amountInput = document.getElementById("amount");
     const dateInput = document.getElementById("date");
+    const descriptionInput = document.getElementById("description");
     
     typeSelect.value = transaction.type;
     if (transaction.type === "debt") {
@@ -267,6 +273,7 @@ const editTransaction = (id) => {
     accountSelect.value = transaction.account;
     amountInput.value = transaction.amount;
     dateInput.value = transaction.date;
+    descriptionInput.value = transaction.description;
     
     editingTransactionId = id;
     const modal = document.getElementById('transaction-modal');

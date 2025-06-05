@@ -74,6 +74,7 @@ const renderFilteredTransactions = (transactions) => {
         <div class="tx-details">
           <div class="tx-category">${tx.category}</div>
           <div class="tx-account">${translateAccount(tx.account)}</div>
+          <div class="tx-description">${tx.description}</div>
         </div>
       </div>
       <div class="tx-right">
