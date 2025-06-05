@@ -6,6 +6,8 @@
   --danger: #f85149;         /* Rojo */
   --warning: #d29922;        /* Amarillo */
   --success: #238636;        /* Verde azulado */
+  --padding-standard: 0.5rem 1rem;
+  --border-radius-standard: 5px;
 }
 
 * {
@@ -50,7 +52,7 @@ body {
 }
 
 .sidebar nav button:hover {
-  background-color: #21262d;
+  background-color: var(--accent);
 }
 
 .sidebar nav button.active {
@@ -94,8 +96,8 @@ body {
 .transaction-form select {
   margin-top: 0.25rem;
   padding: 0.5rem;
-  background: #21262d;
-  border: 1px solid #30363d;
+  background: var(--accent);
+  border: 1px solid var(--primary);
   color: var(--text);
   border-radius: 4px;
 }
@@ -104,13 +106,13 @@ body {
   background-color: var(--primary);
   color: #fff;
   border: none;
-  padding: 0.75rem;
-  border-radius: 4px;
+  padding: var(--padding-standard);
+  border-radius: var(--border-radius-standard);
   cursor: pointer;
 }
 
 .transaction-form button:hover {
-  background-color: #4090dd;
+  background-color: var(--accent);
 }
 
 .transaction-header {
@@ -120,17 +122,20 @@ body {
   margin-bottom: 1rem;
 }
 
-#add-transaction-btn {
+#add-transaction-btn,
+#add-debt-btn {
   background-color: var(--primary);
   color: var(--text);
-  padding: 0.5rem 1rem;
   border: none;
-  border-radius: 5px;
+  padding: var(--padding-standard);
+  border-radius: var(--border-radius-standard);
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin: 0.5rem 0;
 }
 
-#add-transaction-btn:hover {
+#add-transaction-btn:hover,
+#add-debt-btn:hover {
   background-color: var(--accent);
 }
 
@@ -146,9 +151,9 @@ body {
   background-color: var(--accent);
   color: var(--text);
   border: none;
-  padding: 0.5rem 1rem;
+  padding: var(--padding-standard);
   margin: 0 0.2rem;
-  border-radius: 5px;
+  border-radius: var(--border-radius-standard);
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -187,6 +192,7 @@ body {
 .transaction-list li {
   padding: 0.5rem;
   border-bottom: 1px solid var(--bg-color);
+  background: var(--accent);
 }
 
 .transaction-list li:last-child {
@@ -205,7 +211,6 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #161b22;
   padding: 0.75rem 1rem;
   border-left: 4px solid var(--primary);
   border-radius: 6px;
@@ -266,7 +271,7 @@ body {
   border: none;
   padding: 0.3rem 0.6rem;
   margin-left: 0.5rem;
-  border-radius: 4px;
+  border-radius: var(--border-radius-standard);
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -279,34 +284,53 @@ body {
   background-color: var(--danger);
 }
 
-#add-debt-btn {
+.filter-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.year-buttons button,
+.month-buttons button {
   background-color: var(--accent);
   color: var(--text);
   border: none;
-  padding: 0.5rem 1rem;
-  margin: 0.5rem 0;
-  border-radius: 4px;
+  padding: var(--padding-standard);
+  margin: 0 0.2rem;
+  border-radius: var(--border-radius-standard);
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-#add-debt-btn:hover {
+.year-buttons button.active,
+.month-buttons button.active {
   background-color: var(--primary);
 }
 
+.year-buttons button:hover,
+.month-buttons button:hover {
+  background-color: var(--primary);
+}
+
+.current-filter {
+  font-size: 1.2rem;
+  color: var(--text);
+}
+
 .debt-form button {
-  background-color: var(--accent);
+  background-color: var(--primary);
   color: var(--text);
   border: none;
-  padding: 0.5rem 1rem;
+  padding: var(--padding-standard);
   margin-top: 1rem;
-  border-radius: 4px;
+  border-radius: var(--border-radius-standard);
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .debt-form button:hover {
-  background-color: var(--primary);
+  background-color: var(--accent);
 }
 
 /* Estilos para el modal */
@@ -360,9 +384,9 @@ body {
   background-color: var(--accent);
   color: var(--text);
   border: none;
-  padding: 0.5rem 1rem;
+  padding: var(--padding-standard);
   margin: 0.5rem;
-  border-radius: 4px;
+  border-radius: var(--border-radius-standard);
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -388,9 +412,9 @@ body {
   background-color: var(--accent);
   color: var(--text);
   border: none;
-  padding: 0.5rem 1rem;
+  padding: var(--padding-standard);
   margin: 0.5rem;
-  border-radius: 4px;
+  border-radius: var(--border-radius-standard);
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -420,13 +444,17 @@ body {
 }
 
 #debt-modal .modal-content {
-  display: grid;
-  gap: 1rem;
-  width: 500px;
-  background: var(--accent);
-  padding: 1rem;
-  border-radius: 8px;
-  margin: 0 auto;
+  background-color: var(--bg-color);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px 40px;
+  border: 1px solid var(--accent);
+  width: fit-content;
+  max-width: 90%;
+  border-radius: 10px;
+  color: var(--text);
 }
 
 #debt-modal label {
@@ -440,18 +468,23 @@ body {
 #debt-modal input[type="date"] {
   margin-top: 0.25rem;
   padding: 0.5rem;
-  background: #21262d;
-  border: 1px solid #30363d;
+  background: var(--accent);
+  border: 1px solid var(--primary);
   color: var(--text);
   border-radius: 4px;
 }
 
 #debt-modal .close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: var(--text);
-  font-size: 1.5rem;
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#debt-modal .close-btn:hover,
+#debt-modal .close-btn:focus {
+  color: black;
+  text-decoration: none;
   cursor: pointer;
 }
 
@@ -490,11 +523,52 @@ body {
   color: var(--text);
   border: none;
   padding: 0.3rem 0.6rem;
-  border-radius: 4px;
+  border-radius: var(--border-radius-standard);
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .debt-details button:hover {
   background-color: var(--primary);
+}
+
+#add-debt-btn {
+  background-color: var(--primary);
+  color: var(--text);
+  border: none;
+  padding: var(--padding-standard);
+  border-radius: var(--border-radius-standard);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0.5rem 0;
+}
+
+.btn {
+  background-color: var(--primary);
+  color: var(--text);
+  border: none;
+  padding: var(--padding-standard);
+  border-radius: var(--border-radius-standard);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--accent);
+}
+
+#debt-modal .debt-form button {
+  background-color: var(--primary);
+  color: var(--text);
+  border: none;
+  padding: var(--padding-standard);
+  border-radius: var(--border-radius-standard);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0.5rem 0;
+  width: 100%;
+}
+
+#debt-modal .debt-form button:hover {
+  background-color: var(--accent);
 }
