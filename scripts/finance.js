@@ -81,7 +81,7 @@ export const setupTransactionForm = () => {
     const category = type === "debt"
       ? debtSelect.value
       : categorySelect.options[categorySelect.selectedIndex]?.text || "";
-    const account = accountSelect.options[accountSelect.selectedIndex]?.text || "";
+    const account = accountSelect.value;
     const rawAmount = amountInput.value;
     const amount = parseFloat(rawAmount);
     const date = dateInput.value || new Date().toISOString().split("T")[0];
