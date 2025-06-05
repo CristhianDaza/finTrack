@@ -2,6 +2,15 @@ import { switchView } from './ui.js';
 import { setupTransactionForm, editingTransactionId, setupDebtForm, renderDebtList, filterTransactions } from './finance.js';
 import { setupFilters } from './filters.js';
 
+const toggleModal = (modalId, action) => {
+  const modal = document.getElementById(modalId);
+  if (action === 'open') {
+    modal.style.display = 'block';
+  } else if (action === 'close') {
+    modal.style.display = 'none';
+  }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-view]').forEach(button => {
     button.addEventListener('click', () => {
@@ -30,45 +39,43 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector(`[data-month="${currentMonth}"]`).classList.add('active');
   filterTransactions();
 
-  const modal = document.getElementById('transaction-modal');
   const addTransactionBtn = document.getElementById('add-transaction-btn');
-  const closeBtn = modal.querySelector('.close-btn');
+  const closeTransactionModalBtn = document.querySelector('#transaction-modal .close-btn');
 
   addTransactionBtn.addEventListener('click', (e) => {
     e.preventDefault();
     const form = document.getElementById('transaction-form');
     form.reset();
-    modal.style.display = 'block';
+    toggleModal('transaction-modal', 'open');
   });
 
-  closeBtn.addEventListener('click', () => {
-    modal.style.display = 'none';
+  closeTransactionModalBtn.addEventListener('click', () => {
+    toggleModal('transaction-modal', 'close');
   });
 
   window.addEventListener('click', (event) => {
-    if (event.target == modal) {
-      modal.style.display = 'none';
+    if (event.target == document.getElementById('transaction-modal')) {
+      toggleModal('transaction-modal', 'close');
     }
   });
 
-  const debtModal = document.getElementById('debt-modal');
   const addDebtBtn = document.getElementById('add-debt-btn');
-  const closeDebtBtn = debtModal.querySelector('.close-btn');
+  const closeDebtModalBtn = document.querySelector('#debt-modal .close-btn');
 
   addDebtBtn.addEventListener('click', (e) => {
     e.preventDefault();
     const form = document.getElementById('debt-form');
     form.reset();
-    debtModal.style.display = 'block';
+    toggleModal('debt-modal', 'open');
   });
 
-  closeDebtBtn.addEventListener('click', () => {
-    debtModal.style.display = 'none';
+  closeDebtModalBtn.addEventListener('click', () => {
+    toggleModal('debt-modal', 'close');
   });
 
   window.addEventListener('click', (event) => {
-    if (event.target == debtModal) {
-      debtModal.style.display = 'none';
+    if (event.target == document.getElementById('debt-modal')) {
+      toggleModal('debt-modal', 'close');
     }
   });
 });
