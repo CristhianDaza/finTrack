@@ -70,7 +70,7 @@ const renderFilteredTransactions = (transactions) => {
     li.classList.add(tx.type);
     li.innerHTML = `
       <div class="tx-left">
-        <div class="tx-icon">${tx.type === "income" ? "💰" : "💸"}</div>
+        <div class="tx-icon">${tx.type === "income" ? "💰" : tx.type === "debt-payment" ? "📝" : "💸"}</div>
         <div class="tx-details">
           <div class="tx-category">${tx.category}</div>
           <div class="tx-account">${translateAccount(tx.account)}</div>
