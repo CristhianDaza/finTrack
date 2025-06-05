@@ -1,7 +1,6 @@
-import { saveTransaction, getTransactions, deleteTransaction as deleteTransactionStorage, updateTransaction } from './storage.js';
+import { saveTransaction, getTransactions, deleteTransaction as deleteTransactionStorage, updateTransaction, saveAccounts, getAccounts, saveDebt, getDebts, deleteDebt as deleteDebtStorage, updateDebt } from './storage.js';
 import { NotificationService } from './components/notification.js';
 import { translateAccount, formatCOP } from './components/utils.js';
-import { saveDebt, getDebts, deleteDebt as deleteDebtStorage, updateDebt } from './storage.js';
 
 let editingTransactionId = null;
 let transactionToDelete = null;
@@ -440,14 +439,6 @@ const deleteDebt = (id) => {
 const generateUniqueId = () => {
   return '_' + Math.random().toString(36).substr(2, 9);
 };
-
-const saveAccounts = (accounts) => {
-  localStorage.setItem('accounts', JSON.stringify(accounts));
-}
-
-const getAccounts = () => {
-  return JSON.parse(localStorage.getItem('accounts')) || [];
-}
 
 const renderAccounts = () => {
   const accounts = getAccounts();

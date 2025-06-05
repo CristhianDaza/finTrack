@@ -49,3 +49,12 @@ export const deleteDebt = (id) => {
   debts = debts.filter(d => d.id !== id);
   localStorage.setItem('debts', JSON.stringify(debts));
 };
+
+export const saveAccounts = (accounts) => {
+  localStorage.setItem('accounts', JSON.stringify(accounts));
+};
+
+export const getAccounts = () => {
+  const data = localStorage.getItem('accounts');
+  return data ? JSON.parse(data) : [];
+};
