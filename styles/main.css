@@ -806,3 +806,15 @@ body {
   width: 100%;
   text-align: center;
 }
+
+/* Adjust dashboard layout for large screens */
+@media (min-width: 769px) {
+  .financial-summary {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .summary-item {
+    width: 30%;
+    text-align: center;
+  }
+}
