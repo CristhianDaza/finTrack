@@ -16,12 +16,15 @@ const urlsToCache = [
   '/styles/partials/sidebar.css',
   '/styles/partials/transactions.css',
   '/scripts/main.js',
-  '/scripts/finance.js',
   '/scripts/filters.js',
   '/scripts/storage.js',
   '/scripts/ui.js',
   '/scripts/components/notification.js',
-  '/scripts/components/utils.js',
+  '/scripts/transactions.js',
+  '/scripts/debts.js',
+  '/scripts/accounts.js',
+  '/scripts/dashboard.js',
+  '/scripts/utils.js',
   '/images/favicon.ico'
 ];
 
