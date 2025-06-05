@@ -675,7 +675,11 @@ body {
   margin-top: 0.5rem;
 }
 
-.edit-account-btn:hover, .delete-account-btn:hover {
+.edit-account-btn:hover {
+  background-color: var(--primary);
+}
+
+.delete-account-btn:hover {
   background-color: var(--danger);
 }
 
@@ -706,4 +710,3 @@ body {
 #confirm-delete-account-modal button:hover {
   opacity: 0.8;
 }
-
