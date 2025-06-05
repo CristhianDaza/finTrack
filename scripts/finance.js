@@ -610,6 +610,8 @@ let incomeExpenseChart;
 
 const drawIncomeExpenseChart = (month) => {
   const ctx = document.getElementById('income-expense-chart').getContext('2d');
+  ctx.canvas.width = ctx.canvas.parentNode.offsetWidth * 0.8;
+  ctx.canvas.height = ctx.canvas.width * 0.5;
   const transactions = getTransactions().filter(tx => tx.date.split('-')[1] === month);
 
   const totalIncome = transactions
