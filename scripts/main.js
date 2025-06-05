@@ -93,4 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.closest('.modal').style.display = 'none';
     });
   });
+
+  document.querySelector('.hamburger').addEventListener('click', () => {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('open');
+  });
 });
