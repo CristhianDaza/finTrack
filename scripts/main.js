@@ -98,4 +98,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.querySelector('.sidebar');
     sidebar.classList.toggle('open');
   });
+
+  document.querySelectorAll('.sidebar nav button').forEach(button => {
+    button.addEventListener('click', () => {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.remove('open');
+    });
+  });
 });
