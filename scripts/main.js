@@ -1,14 +1,13 @@
 import { switchView } from './ui.js';
-import { setupTransactionForm, setupDebtForm, renderDebtList, filterTransactions } from './finance.js';
+import { setupTransactionForm, filterTransactions } from './transactions.js';
+import { setupDebtForm, renderDebtList } from './debts.js';
+import { renderAccounts, updateAccountSelect, setupAccountForm } from './accounts.js';
+import { setupDashboard } from './dashboard.js';
 import { setupFilters } from './filters.js';
 
 const toggleModal = (modalId, action) => {
   const modal = document.getElementById(modalId);
-  if (action === 'open') {
-    modal.style.display = 'block';
-  } else if (action === 'close') {
-    modal.style.display = 'none';
-  }
+  modal.style.display = action === 'open' ? 'block' : 'none';
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,76 +15,55 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', () => {
       const target = button.getAttribute('data-view');
       switchView(target);
-
+    
+      if (target === 'dashboard') {
+        setupDashboard();
+      }
+    
       document.querySelectorAll('[data-view]').forEach(btn => btn.classList.remove('active'));
-
       button.classList.add('active');
     });
   });
 
-  const defaultActiveButton = document.querySelector('[data-view="dashboard"]');
-  if (defaultActiveButton) {
-    defaultActiveButton.classList.add('active');
-  }
+  document.querySelector('[data-view="dashboard"]')?.classList.add('active');
 
   setupTransactionForm();
   setupDebtForm();
   setupFilters();
+  setupDashboard();
   renderDebtList();
+  renderAccounts();
+  updateAccountSelect();
+  setupAccountForm();
 
   const currentYear = new Date().getFullYear();
   const currentMonth = (new Date().getMonth() + 1).toString().padStart(2, '0');
-  document.querySelector(`[data-year="${currentYear}"]`).classList.add('active');
-  document.querySelector(`[data-month="${currentMonth}"]`).classList.add('active');
+  document.querySelector(`[data-year="${currentYear}"]`)?.classList.add('active');
+  document.querySelector(`[data-month="${currentMonth}"]`)?.classList.add('active');
   filterTransactions();
 
-  const addTransactionBtn = document.getElementById('add-transaction-btn');
-  const closeTransactionModalBtn = document.querySelector('#transaction-modal .close-btn');
-
-  addTransactionBtn.addEventListener('click', (e) => {
+  document.getElementById('add-transaction-btn')?.addEventListener('click', (e) => {
     e.preventDefault();
-    const form = document.getElementById('transaction-form');
-    form.reset();
+    document.getElementById('transaction-form').reset();
     toggleModal('transaction-modal', 'open');
   });
 
-  closeTransactionModalBtn.addEventListener('click', () => {
+  document.querySelector('#transaction-modal .close-btn')?.addEventListener('click', () => {
     toggleModal('transaction-modal', 'close');
   });
 
-  window.addEventListener('click', (event) => {
-    if (event.target == document.getElementById('transaction-modal')) {
-      toggleModal('transaction-modal', 'close');
-    }
-  });
-
-  const addDebtBtn = document.getElementById('add-debt-btn');
-  const closeDebtModalBtn = document.querySelector('#debt-modal .close-btn');
-
-  addDebtBtn.addEventListener('click', (e) => {
+  document.getElementById('add-debt-btn')?.addEventListener('click', (e) => {
     e.preventDefault();
-    const form = document.getElementById('debt-form');
-    form.reset();
+    document.getElementById('debt-form').reset();
     toggleModal('debt-modal', 'open');
   });
 
-  closeDebtModalBtn.addEventListener('click', () => {
+  document.querySelector('#debt-modal .close-btn')?.addEventListener('click', () => {
     toggleModal('debt-modal', 'close');
   });
 
-  window.addEventListener('click', (event) => {
-    if (event.target == document.getElementById('debt-modal')) {
-      toggleModal('debt-modal', 'close');
-    }
-  });
-
-  document.getElementById('add-account-btn').addEventListener('click', () => {
+  document.getElementById('add-account-btn')?.addEventListener('click', () => {
     document.getElementById('account-modal').style.display = 'block';
-  });
-
-  document.getElementById('account-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    document.getElementById('account-modal').style.display = 'none';
   });
 
   document.querySelectorAll('.close-btn').forEach(btn => {
@@ -94,15 +72,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  document.querySelector('.hamburger').addEventListener('click', () => {
-    const sidebar = document.querySelector('.sidebar');
-    sidebar.classList.toggle('open');
+  document.querySelector('.hamburger')?.addEventListener('click', () => {
+    document.querySelector('.sidebar')?.classList.toggle('open');
   });
 
   document.querySelectorAll('.sidebar nav button').forEach(button => {
     button.addEventListener('click', () => {
-      const sidebar = document.querySelector('.sidebar');
-      sidebar.classList.remove('open');
+      document.querySelector('.sidebar')?.classList.remove('open');
     });
   });
 });
@@ -110,11 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js')
-      .then(registration => {
-        console.log('Service Worker registrado con éxito:', registration);
-      })
-      .catch(error => {
-        console.log('Error al registrar el Service Worker:', error);
-      });
+      .then(reg => console.log('Service Worker registrado:', reg))
+      .catch(err => console.log('Error SW:', err));
   });
 }

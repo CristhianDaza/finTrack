@@ -1,5 +1,5 @@
 import { getTransactions } from './storage.js';
-import { translateAccount, formatCOP } from './components/utils.js';
+import { translateAccount, formatCOP } from './utils.js';
 
 const activateButton = (button, selector) => {
   const activeButton = document.querySelector(selector);
