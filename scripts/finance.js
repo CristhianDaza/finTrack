@@ -129,17 +129,8 @@ export const setupTransactionForm = () => {
   renderTransactionList();
 }
 
-export const renderTransactionList = (transactions = getTransactions()) => {
-  const container = document.getElementById("transactions-container");
-
-  container.innerHTML = "";
-
-  if (transactions.length === 0) {
-    container.innerHTML = "<li>No hay transacciones registradas.</li>";
-    return;
-  }
-
-  transactions.forEach(tx => {
+const getTransactionListItems = (transactions) => {
+  return transactions.map(tx => {
     const li = document.createElement("li");
     li.classList.add(tx.type);
     li.innerHTML = `
@@ -157,8 +148,21 @@ export const renderTransactionList = (transactions = getTransactions()) => {
         <button class="delete-btn" data-id="${tx.id}">Eliminar</button>
       </div>
     `;
-    container.appendChild(li);
+    return li;
   });
+};
+
+export const renderTransactionList = (transactions = getTransactions()) => {
+  const container = document.getElementById("transactions-container");
+  container.innerHTML = "";
+
+  if (transactions.length === 0) {
+    container.innerHTML = "<li>No hay transacciones registradas.</li>";
+    return;
+  }
+
+  const transactionItems = getTransactionListItems(transactions);
+  transactionItems.forEach(item => container.appendChild(item));
 
   container.querySelectorAll('.edit-btn').forEach(button => {
     button.addEventListener('click', (e) => {
