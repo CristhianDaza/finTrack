@@ -512,8 +512,11 @@ const setupAccountForm = () => {
     const nameInput = document.getElementById('account-name');
     const balanceInput = document.getElementById('account-balance');
     const newName = nameInput.value.trim();
-    const newBalance = parseFloat(balanceInput.value);
-    if (newName && !isNaN(newBalance)) {
+    let newBalance = parseFloat(balanceInput.value);
+    if (isNaN(newBalance)) {
+      newBalance = 0; // Default to 0 if balance is invalid
+    }
+    if (newName) {
       const accounts = getAccounts();
       if (isEditing && currentAccountId !== null) {
         const account = accounts.find(acc => acc.id === currentAccountId);
