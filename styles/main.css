@@ -389,9 +389,9 @@ body {
   transform: translate(-50%, -50%);
   padding: 20px 40px;
   border: 1px solid var(--accent);
-  width: fit-content;
-  max-width: 90%;
-  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  box-sizing: border-box;
   color: var(--text);
 }
 
@@ -485,9 +485,9 @@ body {
   transform: translate(-50%, -50%);
   padding: 20px 40px;
   border: 1px solid var(--accent);
-  width: fit-content;
-  max-width: 90%;
-  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  box-sizing: border-box;
   color: var(--text);
 }
 
@@ -615,9 +615,9 @@ body {
   transform: translate(-50%, -50%);
   padding: 20px 40px;
   border: 1px solid var(--accent);
-  width: fit-content;
-  max-width: 90%;
-  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  box-sizing: border-box;
   color: var(--text);
 }
 
@@ -855,4 +855,26 @@ body {
 .month-select:hover {
   background-color: var(--primary);
   color: var(--bg-color);
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 15px;
+    width: 95%;
+    max-width: none;
+  }
+
+  .transaction-form {
+    min-width: 100%;
+    padding: 0.5rem;
+  }
+
+  .transaction-form label {
+    font-size: 0.9rem;
+  }
+
+  .transaction-form input,
+  .transaction-form select {
+    padding: 0.4rem;
+  }
 }
