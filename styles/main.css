@@ -139,6 +139,21 @@ body {
   background-color: var(--accent);
 }
 
+#add-account-btn {
+  background-color: var(--primary);
+  color: var(--text);
+  border: none;
+  padding: var(--padding-standard);
+  border-radius: var(--border-radius-standard);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0.5rem 0;
+}
+
+#add-account-btn:hover {
+  background-color: var(--accent);
+}
+
 .filter-controls {
   display: flex;
   justify-content: space-between;
@@ -571,4 +586,34 @@ body {
 
 #debt-modal .debt-form button:hover {
   background-color: var(--accent);
+}
+
+#account-modal .modal-content {
+  background-color: var(--bg-color);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px 40px;
+  border: 1px solid var(--accent);
+  width: fit-content;
+  max-width: 90%;
+  border-radius: 10px;
+  color: var(--text);
+}
+
+#account-modal label {
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+}
+
+#account-modal input[type="text"],
+#account-modal input[type="number"] {
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  background: var(--accent);
+  border: 1px solid var(--primary);
+  color: var(--text);
+  border-radius: 4px;
 }

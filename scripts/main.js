@@ -78,4 +78,20 @@ document.addEventListener('DOMContentLoaded', () => {
       toggleModal('debt-modal', 'close');
     }
   });
+
+  document.getElementById('add-account-btn').addEventListener('click', () => {
+    document.getElementById('account-modal').style.display = 'block';
+  });
+
+  document.getElementById('account-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    // Logic to add account goes here
+    document.getElementById('account-modal').style.display = 'none';
+  });
+
+  document.querySelectorAll('.close-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.modal').style.display = 'none';
+    });
+  });
 });
