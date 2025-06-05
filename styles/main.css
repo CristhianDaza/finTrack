@@ -8,6 +8,12 @@
   --success: #238636;        /* Verde azulado */
   --padding-standard: 0.5rem 1rem;
   --border-radius-standard: 5px;
+  --sidebar-width: 250px;
+  --sidebar-bg: #1f2937;
+  --sidebar-hover: #374151;
+  --sidebar-active: #2563eb;
+  --sidebar-text: #f3f4f6;
+  --sidebar-border-radius: 8px;
 }
 
 * {
@@ -28,37 +34,50 @@ body {
 }
 
 .sidebar {
-  background: var(--accent);
-  width: 240px;
+  background: var(--sidebar-bg);
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  border-radius: var(--sidebar-border-radius);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
 }
 
 .sidebar h2 {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   color: var(--primary);
+  font-size: 1.5rem;
+  text-align: center;
 }
 
 .sidebar nav button {
   margin-bottom: 0.5rem;
   background: none;
-  color: var(--text);
+  color: var(--sidebar-text);
   border: none;
-  padding: 0.5rem;
+  padding: 0.75rem;
   text-align: left;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.3s, color 0.3s;
+  border-radius: var(--sidebar-border-radius);
+  width: 100%;
 }
 
 .sidebar nav button:hover {
-  background-color: var(--accent);
+  background-color: var(--sidebar-hover);
 }
 
 .sidebar nav button.active {
-  background-color: var(--primary);
-  color: var(--text);
+  background-color: var(--sidebar-active);
+  color: #fff;
   font-weight: bold;
+}
+
+.sidebar nav button span {
+  display: inline-block;
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
 }
 
 .view {
@@ -749,11 +768,13 @@ body {
 }
 
 .sidebar {
-  background: var(--accent);
-  width: 240px;
+  background: var(--sidebar-bg);
+  width: 100%;
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  border-radius: var(--sidebar-border-radius);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {
