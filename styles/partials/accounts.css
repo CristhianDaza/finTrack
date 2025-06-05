@@ -1,0 +1,65 @@
+.accounts-list,
+.accounts-container {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+  padding: 0;
+}
+
+.account-card {
+  list-style: none;
+  height: 120px;
+  width: 220px;
+  background: linear-gradient(135deg, rgba(58, 123, 213, 0.8), rgba(58, 96, 115, 0.8));
+  backdrop-filter: blur(8px);
+  color: var(--text);
+  padding: 1rem 1.2rem;
+  border-radius: 20px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: 'Segoe UI', sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.account-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+}
+
+.account-name {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.account-balance {
+  font-size: 1.2rem;
+  color: #d1ffdb;
+  font-weight: 500;
+  margin-top: 0.3rem;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+
+.edit-account-btn,
+.delete-account-btn {
+  background-color: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.edit-account-btn:hover {
+  background-color: var(--primary);
+}
+
+.delete-account-btn:hover {
+  background-color: var(--danger);
+}

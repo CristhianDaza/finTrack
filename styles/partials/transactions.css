@@ -1,0 +1,100 @@
+.transaction-list {
+  margin-top: 20px;
+  background: var(--accent);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.transaction-list h2 {
+  margin-bottom: 1rem;
+}
+
+.transaction-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.transaction-list li {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--bg-color);
+  background: var(--accent);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--primary);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.transaction-list li:last-child {
+  border-bottom: none;
+}
+
+.transaction-list li.expense {
+  border-color: var(--danger);
+}
+
+.transaction-list li.income {
+  border-color: var(--success);
+}
+
+.tx-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tx-icon {
+  font-size: 1.2rem;
+}
+
+.tx-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.tx-category {
+  font-weight: bold;
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+.tx-account {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.tx-right {
+  text-align: right;
+}
+
+.tx-amount {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.tx-date {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.edit-btn, .delete-btn {
+  background-color: var(--accent);
+  color: var(--text);
+  border: none;
+  padding: 0.3rem 0.6rem;
+  margin-left: 0.5rem;
+  border-radius: var(--border-radius-standard);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-btn:hover {
+  background-color: var(--primary);
+}
+
+.delete-btn:hover {
+  background-color: var(--danger);
+}

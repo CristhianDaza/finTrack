@@ -1,14 +1,3 @@
-@import url('./partials/sidebar.css');
-@import url('./partials/forms.css');
-@import url('./partials/transactions.css');
-@import url('./partials/filters.css');
-@import url('./partials/modals.css');
-@import url('./partials/debts.css');
-@import url('./partials/accounts.css');
-@import url('./partials/dashboard.css');
-@import url('./partials/responsive.css');
-@import url('./partials/base.css');
-
 :root {
   --bg-color: #0d1117;
   --accent: #161b22;
@@ -42,4 +31,32 @@ body {
 .app {
   display: flex;
   min-height: 100vh;
+}
+
+.view {
+  flex: 1;
+  padding: 2rem;
+  background-color: var(--bg-color);
+}
+
+.view-section {
+  display: none;
+}
+
+.view-section.active {
+  display: block;
+}
+
+.btn {
+  background-color: var(--primary);
+  color: var(--text);
+  border: none;
+  padding: var(--padding-standard);
+  border-radius: var(--border-radius-standard);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--accent);
 }

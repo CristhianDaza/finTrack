@@ -1,0 +1,76 @@
+.transaction-form {
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+  min-width: 500px;
+  background: var(--accent);
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 0 auto;
+}
+
+.transaction-form label {
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+}
+
+.transaction-form input,
+.transaction-form select {
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  background: var(--accent);
+  border: 1px solid var(--primary);
+  color: var(--text);
+  border-radius: 4px;
+}
+
+.transaction-form button {
+  background-color: var(--primary);
+  color: #fff;
+  border: none;
+  padding: var(--padding-standard);
+  border-radius: var(--border-radius-standard);
+  cursor: pointer;
+}
+
+.transaction-form button:hover {
+  background-color: var(--accent);
+}
+
+#add-transaction-btn,
+#add-debt-btn,
+#add-account-btn {
+  background-color: var(--primary);
+  color: var(--text);
+  border: none;
+  padding: var(--padding-standard);
+  border-radius: var(--border-radius-standard);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0.5rem 0;
+}
+
+#add-transaction-btn:hover,
+#add-debt-btn:hover,
+#add-account-btn:hover {
+  background-color: var(--accent);
+}
+
+.debt-form button,
+#debt-modal .debt-form button {
+  background-color: var(--primary);
+  color: var(--text);
+  border: none;
+  padding: var(--padding-standard);
+  margin-top: 1rem;
+  border-radius: var(--border-radius-standard);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.debt-form button:hover,
+#debt-modal .debt-form button:hover {
+  background-color: var(--accent);
+}

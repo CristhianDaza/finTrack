@@ -1,0 +1,70 @@
+#debts-container {
+  list-style: none;
+  padding: 0;
+}
+
+.debt-details {
+  background-color: var(--accent);
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.debt-details div {
+  margin-right: 1rem;
+}
+
+.debt-details .debt-name {
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.debt-details .debt-total,
+.debt-details .debt-due-date,
+.debt-details .debt-remaining {
+  color: var(--text);
+}
+
+.debt-details button {
+  background-color: var(--accent);
+  color: var(--text);
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--border-radius-standard);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.debt-details button:hover {
+  background-color: var(--primary);
+}
+
+#add-debt-btn {
+  background-color: var(--primary);
+  color: var(--text);
+  border: none;
+  padding: var(--padding-standard);
+  border-radius: var(--border-radius-standard);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0.5rem 0;
+}
+
+#debt-modal .debt-form button {
+  background-color: var(--primary);
+  color: var(--text);
+  border: none;
+  padding: var(--padding-standard);
+  border-radius: var(--border-radius-standard);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0.5rem 0;
+  width: 100%;
+}
+
+#debt-modal .debt-form button:hover {
+  background-color: var(--accent);
+}
