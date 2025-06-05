@@ -61,7 +61,7 @@ export const renderDebtList = () => {
   debts.forEach(debt => {
     const li = document.createElement("li");
     const totalPaid = debt.payments.reduce((sum, payment) => sum + payment.amount, 0);
-    const remaining = debt.remaining - totalPaid;
+    const remaining = debt.total - totalPaid;
     const paymentsList = debt.payments.map(payment => `<li>${formatCOP(payment.amount)} - ${payment.date}</li>`).join('');
     li.innerHTML = `
       <div class="debt-details">

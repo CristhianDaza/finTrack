@@ -12,7 +12,7 @@ export const calculateFinancialSummary = () => {
     .filter(tx => tx.type === 'income')
     .reduce((sum, tx) => sum + tx.amount, 0);
   const totalExpenses = transactions
-    .filter(tx => tx.type === 'expense')
+    .filter(tx => tx.type === 'expense' || tx.type === 'debt-payment')
     .reduce((sum, tx) => sum + tx.amount, 0);
 
   document.getElementById('total-balance').textContent = formatCOP(totalBalance);
@@ -31,7 +31,7 @@ export const drawIncomeExpenseChart = (month) => {
     .filter(tx => tx.type === 'income')
     .reduce((sum, tx) => sum + tx.amount, 0);
   const totalExpenses = transactions
-    .filter(tx => tx.type === 'expense')
+    .filter(tx => tx.type === 'expense' || tx.type === 'debt-payment')
     .reduce((sum, tx) => sum + tx.amount, 0);
 
   const data = {

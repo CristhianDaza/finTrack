@@ -10,6 +10,7 @@ import {
 import { NotificationService } from './components/notification.js';
 import { translateAccount, formatCOP } from './utils.js';
 import { updateDashboard } from './dashboard.js';
+import { renderDebtList } from './debts.js';
 import { renderAccounts } from './accounts.js';
 
 let editingTransactionId = null;
@@ -133,7 +134,23 @@ export const setupTransactionForm = () => {
       if (type === "income" || type === "expense") {
         updateAccountBalance(account, amount, type === 'income');
       }
-
+    
+      if (type === "debt") {
+        updateAccountBalance(account, amount, false);
+      
+        const debts = getDebts();
+        const debt = debts.find(d => d.name === category);
+        if (debt) {
+          if (!Array.isArray(debt.payments)) debt.payments = [];
+          debt.payments.push({ amount, date });
+          debt.remaining = debt.total - debt.payments.reduce((sum, p) => sum + p.amount, 0);
+          localStorage.setItem('debts', JSON.stringify(debts));
+        }
+      
+        transaction.type = "debt-payment";
+        renderDebtList();
+      }
+    
       saveTransaction(transaction);
       NotificationService.success("Transacción guardada con éxito!");
     }
@@ -232,7 +249,10 @@ const editTransaction = (id) => {
     const descriptionInput = document.getElementById("description");
 
     typeSelect.value = transaction.type;
-
+    if (transaction.type === "debt-payment") {
+      NotificationService.error("No se puede editar un pago de deuda. Elimina y vuelve a crear.");
+      return;
+    }    
     if (transaction.type === "debt") {
       debtLabel.style.display = "block";
       debtSelect.value = transaction.category;
@@ -256,23 +276,36 @@ const editTransaction = (id) => {
 const deleteTransaction = (id) => {
   const transactions = getTransactions();
   const transaction = transactions.find(tx => tx.id === id);
-  if (transaction) {
-    const accounts = getAccounts();
-    const account = accounts.find(acc => acc.id === transaction.account);
-    if (account) {
-      if (transaction.type === 'income') {
-        account.balance -= transaction.amount;
-      } else if (transaction.type === 'expense') {
-        account.balance += transaction.amount;
-      }
-      saveAccounts(accounts);
-      renderAccounts();
+  if (!transaction) return;
+
+  const accounts = getAccounts();
+  const account = accounts.find(acc => acc.id === transaction.account);
+
+  if (account) {
+    if (transaction.type === 'income') {
+      account.balance -= transaction.amount;
+    } else if (transaction.type === 'expense' || transaction.type === 'debt-payment') {
+      account.balance += transaction.amount;
     }
-    deleteTransactionStorage(id);
-    renderTransactionList();
-    NotificationService.success("Transacción eliminada con éxito!");
-    updateDashboard();
+    saveAccounts(accounts);
+    renderAccounts();
   }
+
+  if (transaction.type === "debt-payment") {
+    const debts = getDebts();
+    const debt = debts.find(d => d.name === transaction.category);
+    if (debt && Array.isArray(debt.payments)) {
+      debt.payments = debt.payments.filter(p => !(p.amount === transaction.amount && p.date === transaction.date));
+      debt.remaining = debt.total - debt.payments.reduce((sum, p) => sum + p.amount, 0);
+      localStorage.setItem('debts', JSON.stringify(debts));
+      renderDebtList();
+    }
+  }
+
+  deleteTransactionStorage(id);
+  renderTransactionList();
+  NotificationService.success("Transacción eliminada con éxito!");
+  updateDashboard();
 };
 
 export const filterTransactions = () => {
