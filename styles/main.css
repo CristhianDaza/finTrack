@@ -710,3 +710,35 @@ body {
 #confirm-delete-account-modal button:hover {
   opacity: 0.8;
 }
+
+.financial-summary {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 2rem;
+  background-color: var(--accent);
+  border-radius: var(--border-radius-standard);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.summary-item {
+  background-color: var(--bg-color);
+  padding: 1.5rem;
+  border-radius: var(--border-radius-standard);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  flex: 1;
+  margin: 0 1rem;
+}
+
+.summary-item h3 {
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.summary-item p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text);
+}

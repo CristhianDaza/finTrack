@@ -556,3 +556,22 @@ const editAccount = (accountId) => {
 setupAccountForm();
 renderAccounts();
 updateAccountSelect();
+
+const calculateFinancialSummary = () => {
+  const accounts = getAccounts();
+  const transactions = getTransactions();
+
+  const totalBalance = accounts.reduce((sum, account) => sum + account.balance, 0);
+  const totalIncome = transactions
+    .filter(tx => tx.type === 'income')
+    .reduce((sum, tx) => sum + tx.amount, 0);
+  const totalExpenses = transactions
+    .filter(tx => tx.type === 'expense')
+    .reduce((sum, tx) => sum + tx.amount, 0);
+
+  document.getElementById('total-balance').textContent = formatCOP(totalBalance);
+  document.getElementById('total-income').textContent = formatCOP(totalIncome);
+  document.getElementById('total-expenses').textContent = formatCOP(totalExpenses);
+};
+
+calculateFinancialSummary();
