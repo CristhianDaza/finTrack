@@ -1,5 +1,5 @@
 import { switchView } from './ui.js';
-import { setupTransactionForm, editingTransactionId, setupDebtForm, renderDebtList, filterTransactions } from './finance.js';
+import { setupTransactionForm, setupDebtForm, renderDebtList, filterTransactions } from './finance.js';
 import { setupFilters } from './filters.js';
 
 const toggleModal = (modalId, action) => {

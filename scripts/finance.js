@@ -3,7 +3,7 @@ import { NotificationService } from './components/notification.js';
 import { translateAccount, formatCOP } from './components/utils.js';
 import { saveDebt, getDebts, deleteDebt as deleteDebtStorage, updateDebt } from './storage.js';
 
-export let editingTransactionId = null;
+let editingTransactionId = null;
 let transactionToDelete = null;
 let editingDebtId = null;
 let debtToDelete = null;
@@ -77,7 +77,8 @@ export const setupTransactionForm = () => {
 
   formSubmitHandler = (e) => {
     e.preventDefault();
-
+    console.log("Form submitted");
+    console.log(editingTransactionId);
     const type = typeSelect.value;
     const category = type === "debt"
       ? debtSelect.value
@@ -87,75 +88,66 @@ export const setupTransactionForm = () => {
     const amount = parseFloat(rawAmount);
     const date = dateInput.value || new Date().toISOString().split("T")[0];
     const description = descriptionInput.value || "";
-
+  
     if (!type || isNaN(amount) || amount <= 0 || (!account && type !== 'debt')) {
       NotificationService.error("Por favor completa todos los campos correctamente.");
       return;
     }
-
-    if (type === "income" || type === "expense") {
-      updateAccountBalance(account, amount, type === 'income');
-    }
-
-    if (type === "debt") {
-      const debts = getDebts();
-      const debt = debts.find(d => d.name.toLowerCase() === category.toLowerCase());
-      if (debt) {
-        debt.payments.push({ amount, date });
-        debt.remaining -= amount;
-        updateDebt(debt);
-        renderDebtList();
-        NotificationService.success("Pago de deuda registrado con éxito!");
-
-        const transaction = {
-          id: crypto.randomUUID(),
-          type: "debt-payment",
-          category: debt.name,
-          account: "",
-          amount,
-          date,
-          description
-        };
-        saveTransaction(transaction);
-        renderTransactionList();
-      } else {
-        NotificationService.error("Deuda no encontrada.");
+  
+    const transaction = {
+      id: editingTransactionId || crypto.randomUUID(),
+      type,
+      category,
+      account,
+      amount,
+      date,
+      description
+    };
+  
+    if (editingTransactionId) {
+      console.log("Editing transaction");
+      const previous = getTransactions().find(tx => tx.id === editingTransactionId);
+      if (previous && previous.type !== 'debt-payment') {
+        const accounts = getAccounts();
+        const oldAccount = accounts.find(acc => acc.id === previous.account);
+        const newAccount = accounts.find(acc => acc.id === account);
+  
+        if (oldAccount) {
+          oldAccount.balance += previous.type === 'income' ? -previous.amount : previous.amount;
+        }
+        if (newAccount) {
+          newAccount.balance += type === 'income' ? amount : -amount;
+        }
+  
+        saveAccounts(accounts);
+        renderAccounts();
       }
+  
+      updateTransaction(transaction);
+      editingTransactionId = null;
+      console.log("Transaction updated");
+      NotificationService.success("Transacción actualizada con éxito!");
     } else {
-      const transaction = {
-        id: editingTransactionId || crypto.randomUUID(),
-        type,
-        category,
-        account,
-        amount,
-        date,
-        description
-      };
-
-      if (editingTransactionId) {
-        updateTransaction(transaction);
-        editingTransactionId = null;
-        NotificationService.success("Transacción actualizada con éxito!");
-      } else {
-        saveTransaction(transaction);
-        NotificationService.success("Transacción guardada con éxito!");
+      if (type === "income" || type === "expense") {
+        updateAccountBalance(account, amount, type === 'income');
       }
-
-      renderTransactionList();
+  
+      saveTransaction(transaction);
+      NotificationService.success("Transacción guardada con éxito!");
     }
-
+  
+    renderTransactionList();
+    updateDashboard();
+  
     const submitButton = form.querySelector('button[type="submit"]');
     submitButton.disabled = true;
-
-    setTimeout(() => {
-      submitButton.disabled = false;
-    }, 1000);
-
+    setTimeout(() => submitButton.disabled = false, 1000);
+  
     form.reset();
     updateCategoryOptions();
     document.getElementById('transaction-modal').style.display = 'none';
-    updateDashboard();
   };
+  
 
   form.addEventListener("submit", formSubmitHandler);
   typeSelect.addEventListener("change", updateCategoryOptions);
