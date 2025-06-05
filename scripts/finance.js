@@ -275,10 +275,25 @@ const editTransaction = (id) => {
 };
 
 const deleteTransaction = (id) => {
-  deleteTransactionStorage(id);
-  renderTransactionList();
-  NotificationService.success("Transacción eliminada con éxito!");
-  updateDashboard();
+  const transactions = getTransactions();
+  const transaction = transactions.find(tx => tx.id === id);
+  if (transaction) {
+    const accounts = getAccounts();
+    const account = accounts.find(acc => acc.id === transaction.account);
+    if (account) {
+      if (transaction.type === 'income') {
+        account.balance -= transaction.amount;
+      } else if (transaction.type === 'expense') {
+        account.balance += transaction.amount;
+      }
+      saveAccounts(accounts);
+      renderAccounts(); // Update account display
+    }
+    deleteTransactionStorage(id);
+    renderTransactionList();
+    NotificationService.success("Transacción eliminada con éxito!");
+    updateDashboard();
+  }
 };
 
 export const setupDebtForm = () => {
