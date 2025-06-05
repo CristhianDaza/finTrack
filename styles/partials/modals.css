@@ -23,7 +23,7 @@
   max-width: 600px;
   box-sizing: border-box;
   color: var(--text);
-  overflow: hidden; /* Asegura que el contenido adicional no se desborde */
+  overflow: hidden;
 }
 
 .close-btn {
@@ -103,7 +103,7 @@
   max-width: 600px;
   box-sizing: border-box;
   color: var(--text);
-  overflow: hidden; /* Asegura que el contenido adicional no se desborde */
+  overflow: hidden;
 }
 
 #debt-modal label,
@@ -163,7 +163,7 @@
   .modal-content {
     padding: 15px;
     width: 95%;
-    max-width: 95%; /* Asegura que el modal no exceda el ancho de la pantalla */
+    max-width: 95%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

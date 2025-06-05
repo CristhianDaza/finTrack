@@ -7,6 +7,8 @@
   border-radius: var(--border-radius-standard);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .summary-item {

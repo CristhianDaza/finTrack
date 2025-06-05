@@ -294,7 +294,7 @@ const deleteTransaction = (id) => {
         account.balance += transaction.amount;
       }
       saveAccounts(accounts);
-      renderAccounts(); // Update account display
+      renderAccounts();
     }
     deleteTransactionStorage(id);
     renderTransactionList();
@@ -521,7 +521,7 @@ const setupAccountForm = () => {
     const newName = nameInput.value.trim();
     let newBalance = parseFloat(balanceInput.value);
     if (isNaN(newBalance)) {
-      newBalance = 0; // Default to 0 if balance is invalid
+      newBalance = 0;
     }
     if (newName) {
       const accounts = getAccounts();
