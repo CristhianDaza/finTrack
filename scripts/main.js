@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('account-form').addEventListener('submit', (e) => {
     e.preventDefault();
-    // Logic to add account goes here
     document.getElementById('account-modal').style.display = 'none';
   });
 

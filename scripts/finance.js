@@ -386,3 +386,65 @@ const deleteDebt = (id) => {
   renderDebtList();
   NotificationService.success("Deuda eliminada con éxito!");
 };
+
+const saveAccounts = (accounts) => {
+  localStorage.setItem('accounts', JSON.stringify(accounts));
+}
+
+const getAccounts = () => {
+  return JSON.parse(localStorage.getItem('accounts')) || [];
+}
+
+const renderAccounts = () => {
+  const accounts = getAccounts();
+  const container = document.getElementById('accounts-container');
+  container.innerHTML = '';
+  accounts.forEach(account => {
+    const li = document.createElement('li');
+    li.classList.add('account-card');
+
+    const name = document.createElement('div');
+    name.classList.add('account-name');
+    name.textContent = account.name;
+
+    const balance = document.createElement('div');
+    balance.classList.add('account-balance');
+    balance.textContent = `Saldo: ${formatCOP(account.balance)}`;
+
+    li.appendChild(name);
+    li.appendChild(balance);
+    container.appendChild(li);
+  });
+}
+
+const updateAccountSelect = () => {
+  const accounts = getAccounts();
+  const accountSelect = document.getElementById('account');
+  accountSelect.innerHTML = '';
+  accounts.forEach(account => {
+    const option = document.createElement('option');
+    option.value = account.name;
+    option.textContent = account.name;
+    accountSelect.appendChild(option);
+  });
+}
+
+const setupAccountForm = () => {
+  const form = document.getElementById('account-form');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('account-name').value;
+    const balance = parseFloat(document.getElementById('account-balance').value);
+    const accounts = getAccounts();
+    accounts.push({ name, balance });
+    saveAccounts(accounts);
+    renderAccounts();
+    updateAccountSelect();
+    form.reset();
+    document.getElementById('account-modal').style.display = 'none';
+  });
+}
+
+setupAccountForm();
+renderAccounts();
+updateAccountSelect();
