@@ -60,7 +60,7 @@ export const setupTransactionForm = () => {
 
   const updateAccountBalance = (accountName, amount, isIncome) => {
     const accounts = getAccounts();
-    const account = accounts.find(acc => acc.name === accountName);
+    const account = accounts.find(acc => acc.id === accountName);
     if (account) {
       account.balance += isIncome ? amount : -amount;
       saveAccounts(accounts);
@@ -401,6 +401,10 @@ const deleteDebt = (id) => {
   NotificationService.success("Deuda eliminada con éxito!");
 };
 
+const generateUniqueId = () => {
+  return '_' + Math.random().toString(36).substr(2, 9);
+};
+
 const saveAccounts = (accounts) => {
   localStorage.setItem('accounts', JSON.stringify(accounts));
 }
@@ -425,8 +429,26 @@ const renderAccounts = () => {
     balance.classList.add('account-balance');
     balance.textContent = `Saldo: ${formatCOP(account.balance)}`;
 
+    const buttonsContainer = document.createElement('div');
+    buttonsContainer.style.display = 'flex';
+    buttonsContainer.style.justifyContent = 'space-between';
+
+    const editBtn = document.createElement('button');
+    editBtn.textContent = 'Editar';
+    editBtn.classList.add('edit-account-btn');
+    editBtn.onclick = () => editAccount(account.id);
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Eliminar';
+    deleteBtn.classList.add('delete-account-btn');
+    deleteBtn.onclick = () => confirmDeleteAccount(account.id);
+
+    buttonsContainer.appendChild(editBtn);
+    buttonsContainer.appendChild(deleteBtn);
+
     li.appendChild(name);
     li.appendChild(balance);
+    li.appendChild(buttonsContainer);
     container.appendChild(li);
   });
 }
@@ -437,26 +459,98 @@ const updateAccountSelect = () => {
   accountSelect.innerHTML = '';
   accounts.forEach(account => {
     const option = document.createElement('option');
-    option.value = account.name;
+    option.value = account.id;
     option.textContent = account.name;
     accountSelect.appendChild(option);
   });
 }
 
+let isEditing = false;
+let currentAccountId = null;
+
 const setupAccountForm = () => {
   const form = document.getElementById('account-form');
-  form.addEventListener('submit', (e) => {
+  form.onsubmit = (e) => {
     e.preventDefault();
-    const name = document.getElementById('account-name').value;
-    const balance = parseFloat(document.getElementById('account-balance').value);
-    const accounts = getAccounts();
-    accounts.push({ name, balance });
-    saveAccounts(accounts);
-    renderAccounts();
-    updateAccountSelect();
-    form.reset();
-    document.getElementById('account-modal').style.display = 'none';
-  });
+    const nameInput = document.getElementById('account-name');
+    const balanceInput = document.getElementById('account-balance');
+    const newName = nameInput.value.trim();
+    const newBalance = parseFloat(balanceInput.value);
+    if (newName && !isNaN(newBalance)) {
+      const accounts = getAccounts();
+      if (isEditing && currentAccountId !== null) {
+        const account = accounts.find(acc => acc.id === currentAccountId);
+        if (account) {
+          account.name = newName;
+          account.balance = newBalance;
+          NotificationService.success('Cuenta editada con éxito.');
+        }
+      } else {
+        const newAccount = { id: generateUniqueId(), name: newName, balance: newBalance };
+        accounts.push(newAccount);
+        NotificationService.success('Cuenta creada con éxito.');
+      }
+      saveAccounts(accounts);
+      renderAccounts();
+      updateAccountSelect();
+      isEditing = false;
+      currentAccountId = null;
+    }
+    const modal = document.getElementById('account-modal');
+    modal.style.display = 'none';
+  };
+}
+
+const confirmDeleteAccount = (accountId) => {
+  const modal = document.getElementById('confirm-delete-account-modal');
+  modal.style.display = 'block';
+  const confirmBtn = document.getElementById('confirm-delete-account-btn');
+  confirmBtn.onclick = () => {
+    deleteAccount(accountId);
+    modal.style.display = 'none';
+    NotificationService.success('Cuenta eliminada con éxito.');
+  };
+  const cancelBtn = document.getElementById('cancel-delete-account-btn');
+  cancelBtn.onclick = () => {
+    modal.style.display = 'none';
+  };
+}
+
+const deleteAccount = (accountId) => {
+  const accounts = getAccounts().filter(acc => acc.id !== accountId);
+  saveAccounts(accounts);
+  renderAccounts();
+}
+
+const openAccountModalForCreation = () => {
+  isEditing = false;
+  currentAccountId = null;
+  const nameInput = document.getElementById('account-name');
+  const balanceInput = document.getElementById('account-balance');
+  nameInput.value = '';
+  balanceInput.value = '';
+  const modal = document.getElementById('account-modal');
+  modal.style.display = 'block';
+}
+
+const addAccountButton = document.getElementById('add-account-btn');
+if (addAccountButton) {
+  addAccountButton.onclick = openAccountModalForCreation;
+}
+
+const editAccount = (accountId) => {
+  isEditing = true;
+  currentAccountId = accountId;
+  const accounts = getAccounts();
+  const account = accounts.find(acc => acc.id === accountId);
+  if (account) {
+    const nameInput = document.getElementById('account-name');
+    const balanceInput = document.getElementById('account-balance');
+    nameInput.value = account.name;
+    balanceInput.value = account.balance;
+    const modal = document.getElementById('account-modal');
+    modal.style.display = 'block';
+  }
 }
 
 setupAccountForm();
