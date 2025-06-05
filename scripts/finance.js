@@ -58,6 +58,16 @@ export const setupTransactionForm = () => {
     }
   }
 
+  const updateAccountBalance = (accountName, amount, isIncome) => {
+    const accounts = getAccounts();
+    const account = accounts.find(acc => acc.name === accountName);
+    if (account) {
+      account.balance += isIncome ? amount : -amount;
+      saveAccounts(accounts);
+      renderAccounts();
+    }
+  }
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
   
@@ -70,6 +80,10 @@ export const setupTransactionForm = () => {
     if (!type || isNaN(amount) || amount <= 0) {
       NotificationService.error("Por favor completa todos los campos correctamente.");
       return;
+    }
+
+    if (type === "income" || type === "expense") {
+      updateAccountBalance(account, amount, type === 'income');
     }
 
     if (type === "debt") {
