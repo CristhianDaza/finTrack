@@ -8,6 +8,8 @@ let transactionToDelete = null;
 let editingDebtId = null;
 let debtToDelete = null;
 
+let formSubmitHandler;
+
 export const setupTransactionForm = () => {
   const typeSelect = document.getElementById("type");
   const categorySelect = document.getElementById("category");
@@ -56,7 +58,7 @@ export const setupTransactionForm = () => {
       accountSelect.parentElement.style.display = "flex";
       debtSelect.parentElement.style.display = "none";
     }
-  }
+  };
 
   const updateAccountBalance = (accountName, amount, isIncome) => {
     const accounts = getAccounts();
@@ -66,18 +68,25 @@ export const setupTransactionForm = () => {
       saveAccounts(accounts);
       renderAccounts();
     }
+  };
+
+  if (formSubmitHandler) {
+    form.removeEventListener("submit", formSubmitHandler);
   }
 
-  form.addEventListener("submit", (e) => {
+  formSubmitHandler = (e) => {
     e.preventDefault();
-  
+
     const type = typeSelect.value;
-    const category = type === "debt" ? debtSelect.value : categorySelect.options[categorySelect.selectedIndex]?.text || "";
-    const account = accountSelect.value;
-    const amount = parseFloat(amountInput.value);
+    const category = type === "debt"
+      ? debtSelect.value
+      : categorySelect.options[categorySelect.selectedIndex]?.text || "";
+    const account = accountSelect.options[accountSelect.selectedIndex]?.text || "";
+    const rawAmount = amountInput.value;
+    const amount = parseFloat(rawAmount);
     const date = dateInput.value || new Date().toISOString().split("T")[0];
-  
-    if (!type || isNaN(amount) || amount <= 0) {
+
+    if (!type || isNaN(amount) || amount <= 0 || (!account && type !== 'debt')) {
       NotificationService.error("Por favor completa todos los campos correctamente.");
       return;
     }
@@ -131,18 +140,25 @@ export const setupTransactionForm = () => {
       renderTransactionList();
     }
 
+    const submitButton = form.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+
+    setTimeout(() => {
+      submitButton.disabled = false;
+    }, 1000);
+
     form.reset();
     updateCategoryOptions();
-
-    const modal = document.getElementById('transaction-modal');
-    modal.style.display = 'none';
+    document.getElementById('transaction-modal').style.display = 'none';
     updateDashboard();
-  });
+  };
 
+  form.addEventListener("submit", formSubmitHandler);
   typeSelect.addEventListener("change", updateCategoryOptions);
   updateCategoryOptions();
   renderTransactionList();
-}
+};
+
 
 const getTransactionListItems = (transactions) => {
   return transactions.map(tx => {
@@ -620,7 +636,6 @@ const drawIncomeExpenseChart = (month) => {
 
 const monthSelect = document.getElementById('month-select');
 
-// Set the current month as the default selected option
 const currentMonth = new Date().getMonth() + 1;
 monthSelect.value = currentMonth.toString().padStart(2, '0');
 
