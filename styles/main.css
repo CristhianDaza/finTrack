@@ -818,3 +818,20 @@ body {
     text-align: center;
   }
 }
+
+/* Enhance month select appearance */
+.month-select {
+  background-color: var(--accent);
+  color: var(--text);
+  border: 1px solid var(--primary);
+  border-radius: var(--border-radius-standard);
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.month-select:hover {
+  background-color: var(--primary);
+  color: var(--bg-color);
+}
