@@ -1,6 +1,12 @@
 import { getTransactions } from './storage.js';
 import { translateAccount, formatCOP } from './components/utils.js';
 
+const activateButton = (button, selector) => {
+  const activeButton = document.querySelector(selector);
+  if (activeButton) activeButton.classList.remove('active');
+  button.classList.add('active');
+};
+
 export const setupFilters = () => {
   const yearButtonsContainer = document.getElementById('year-buttons');
   const monthButtons = document.querySelectorAll('.month-buttons button');
@@ -30,9 +36,7 @@ export const setupFilters = () => {
 
   yearButtonsContainer.addEventListener('click', (e) => {
     if (e.target.tagName === 'BUTTON') {
-      const activeYearButton = document.querySelector('.year-buttons .active');
-      if (activeYearButton) activeYearButton.classList.remove('active');
-      e.target.classList.add('active');
+      activateButton(e.target, '.year-buttons .active');
       updateCurrentFilterDisplay(e.target.dataset.year, document.querySelector('.month-buttons .active').dataset.month);
       filterTransactions();
     }
@@ -40,9 +44,7 @@ export const setupFilters = () => {
 
   monthButtons.forEach(button => {
     button.addEventListener('click', () => {
-      const activeMonthButton = document.querySelector('.month-buttons .active');
-      if (activeMonthButton) activeMonthButton.classList.remove('active');
-      button.classList.add('active');
+      activateButton(button, '.month-buttons .active');
       updateCurrentFilterDisplay(document.querySelector('.year-buttons .active').dataset.year, button.dataset.month);
       filterTransactions();
     });
