@@ -157,6 +157,7 @@ export const setupTransactionForm = () => {
 
     renderTransactionList();
     updateDashboard();
+    updateMonthSelect();
 
     const submitButton = form.querySelector('button[type="submit"]');
     submitButton.disabled = true;
@@ -321,3 +322,49 @@ export const filterTransactions = () => {
 
   renderTransactionList(filteredTransactions);
 };
+
+function updateMonthSelect() {
+  const transactions = getTransactions();
+  renderMonthSelect(transactions);
+}
+
+function renderMonthSelect(transactions) {
+  const monthSelectContainer = document.querySelector('.month-select-container');
+  const monthSelect = document.createElement('select');
+  const monthsWithTransactions = new Set(transactions.map(tx => new Date(tx.date).getMonth()));
+  monthSelectContainer.innerHTML = '';
+
+  monthsWithTransactions.forEach(month => {
+    const monthOption = document.createElement('option');
+    monthOption.value = month;
+    monthOption.textContent = new Date(0, month).toLocaleString('default', { month: 'long' }).replace(/^./, str => str.toUpperCase());
+    monthSelect.appendChild(monthOption);
+  });
+
+  monthSelect.addEventListener('change', (event) => {
+    const selectedMonth = parseInt(event.target.value, 10);
+    filterTransactionsByMonth(selectedMonth);
+  });
+
+  monthSelectContainer.appendChild(monthSelect);
+
+  const currentMonth = new Date().getMonth();
+  if (monthsWithTransactions.has(currentMonth)) {
+    monthSelect.value = currentMonth;
+    filterTransactionsByMonth(currentMonth);
+  }
+}
+
+function filterTransactionsByMonth(month) {
+  const activeYear = document.querySelector('[data-year].active')?.getAttribute('data-year');
+  if (!activeYear) return;
+
+  const filteredTransactions = getTransactions().filter(tx => {
+    const [year, txMonth] = tx.date.split('-');
+    return year === activeYear && txMonth === String(month + 1).padStart(2, '0');
+  });
+
+  renderTransactionList(filteredTransactions);
+}
+
+renderMonthSelect(getTransactions());
