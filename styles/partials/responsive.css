@@ -23,12 +23,11 @@
   }
 
   .sidebar {
-    position: absolute;
-    left: -240px;
+    position: fixed;
+    left: -100vw;
     top: 0;
-    bottom: 0;
-    width: 240px;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     transition: left 0.3s ease;
     z-index: 1000;
     overflow-y: auto;
